@@ -6,7 +6,7 @@ import type { DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format } from "date-fns";
 import {
   ArrowRight, Bath, BedDouble, Check, ChevronDown, Clock3, CookingPot, House,
-  Mail, MapPin, Menu, Mountain, ParkingCircle, ShieldCheck, Users, WashingMachine, Wifi,
+  Mail, MapPin, Menu, Mountain, ParkingCircle, Phone, Send, ShieldCheck, Users, WashingMachine, Wifi,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -222,22 +222,22 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
             <div className="grid gap-7 px-6 py-7 md:grid-cols-[360px_1fr] md:px-8">
               <div>
                 <Label className="mb-3 block text-xs uppercase tracking-[0.16em] text-[#646761]">Check-in — check-out</Label>
-                <div className="overflow-hidden rounded-2xl border border-[#d8d0c5] bg-white">
-                  <Calendar mode="range" selected={dates} onSelect={setDates} disabled={{ before: new Date() }} className="mx-auto p-3" />
+                <div className="overflow-hidden rounded-2xl border border-[#d8d0c5] bg-[#fbf8f3] shadow-[0_10px_30px_rgba(36,50,59,0.04)]">
+                  <Calendar mode="range" selected={dates} onSelect={setDates} disabled={{ before: new Date() }} className="mx-auto p-4" />
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                  <div className="rounded-xl bg-white p-3"><span className="block text-xs text-[#7a7c76]">Check-in</span><strong className="font-medium text-[#24323b]">{dates?.from ? format(dates.from, "d MMM yyyy") : "Choose date"}</strong></div>
-                  <div className="rounded-xl bg-white p-3"><span className="block text-xs text-[#7a7c76]">Check-out</span><strong className="font-medium text-[#24323b]">{dates?.to ? format(dates.to, "d MMM yyyy") : "Choose date"}</strong></div>
+                  <div className="rounded-xl border border-[#ddd4c8] bg-[#fbf8f3] p-3"><span className="block text-xs text-[#7a7c76]">Check-in</span><strong className="font-medium text-[#24323b]">{dates?.from ? format(dates.from, "d MMM yyyy") : "Choose date"}</strong></div>
+                  <div className="rounded-xl border border-[#ddd4c8] bg-[#fbf8f3] p-3"><span className="block text-xs text-[#7a7c76]">Check-out</span><strong className="font-medium text-[#24323b]">{dates?.to ? format(dates.to, "d MMM yyyy") : "Choose date"}</strong></div>
                 </div>
               </div>
               <div className="space-y-4">
-                <div><Label htmlFor="guest-name">Full name *</Label><Input id="guest-name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1.5 bg-white" placeholder="Your full name" autoComplete="name" /></div>
-                <div><Label htmlFor="guest-email">Email *</Label><Input id="guest-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5 bg-white" placeholder="you@email.com" autoComplete="email" /></div>
+                <div><Label htmlFor="guest-name">Full name *</Label><Input id="guest-name" value={name} onChange={(e) => setName(e.target.value)} className="mt-1.5 border-[#d8d0c5] bg-[#fbf8f3]" placeholder="Your full name" autoComplete="name" /></div>
+                <div><Label htmlFor="guest-email">Email *</Label><Input id="guest-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1.5 border-[#d8d0c5] bg-[#fbf8f3]" placeholder="you@email.com" autoComplete="email" /></div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div><Label htmlFor="guest-phone">Phone</Label><Input id="guest-phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="mt-1.5 bg-white" placeholder="+353…" autoComplete="tel" /></div>
-                  <div><Label>Guests</Label><Select value={guests} onValueChange={setGuests}><SelectTrigger className="mt-1.5 w-full bg-white"><SelectValue /></SelectTrigger><SelectContent>{[1, 2, 3, 4, 5].map((n) => <SelectItem key={n} value={String(n)}>{n} guest{n > 1 ? "s" : ""}</SelectItem>)}</SelectContent></Select></div>
+                  <div><Label htmlFor="guest-phone">Phone</Label><Input id="guest-phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="mt-1.5 border-[#d8d0c5] bg-[#fbf8f3]" placeholder="+353…" autoComplete="tel" /></div>
+                  <div><Label>Guests</Label><Select value={guests} onValueChange={setGuests}><SelectTrigger className="mt-1.5 w-full border-[#d8d0c5] bg-[#fbf8f3]"><SelectValue /></SelectTrigger><SelectContent>{[1, 2, 3, 4, 5].map((n) => <SelectItem key={n} value={String(n)}>{n} guest{n > 1 ? "s" : ""}</SelectItem>)}</SelectContent></Select></div>
                 </div>
-                <div><Label htmlFor="guest-message">Anything we should know?</Label><Textarea id="guest-message" value={message} onChange={(e) => setMessage(e.target.value)} className="mt-1.5 min-h-20 bg-white" placeholder="Cot, accessibility needs or a special occasion…" /></div>
+                <div><Label htmlFor="guest-message">Anything we should know?</Label><Textarea id="guest-message" value={message} onChange={(e) => setMessage(e.target.value)} className="mt-1.5 min-h-20 border-[#d8d0c5] bg-[#fbf8f3]" placeholder="Cot, accessibility needs or a special occasion…" /></div>
                 <div className="rounded-2xl bg-[#24323b] p-5 text-white">
                   <div className="flex justify-between text-sm text-white/70"><span>Stay</span><span>{nights ? `${nights} night${nights === 1 ? "" : "s"}` : "Choose dates"}</span></div>
                   <div className="mt-2 flex justify-between text-sm text-white/70"><span>Guests</span><span>{guests}</span></div>
@@ -263,7 +263,7 @@ export default function HomeClient() {
   const [activeSection, setActiveSection] = useState("top");
   const progressRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
-  const nav = [["The house", "stay"], ["Gallery", "gallery"], ["Donegal", "location"], ["Reviews", "reviews"], ["Good to know", "faq"]];
+  const nav = [["Home", "top"], ["About", "stay"], ["Gallery", "gallery"], ["Booking", "booking"], ["Contact", "contact"]];
 
   useEffect(() => {
     let frame = 0;
@@ -285,7 +285,7 @@ export default function HomeClient() {
           setHeaderCompact(nextCompact);
         }
         let currentSection = "top";
-        for (const id of ["stay", "gallery", "location", "reviews", "faq"]) {
+        for (const id of ["stay", "gallery", "booking", "location", "reviews", "faq", "contact"]) {
           const section = document.getElementById(id);
           if (section && section.offsetTop <= scrollTop + 180) currentSection = id;
         }
@@ -332,17 +332,22 @@ export default function HomeClient() {
     <main className="overflow-x-hidden bg-[#f7f3ed] text-[#24323b]">
       <div aria-hidden="true" className="page-intro" />
       <div ref={progressRef} aria-hidden="true" className="scroll-progress" />
-      <header className={`fixed inset-x-0 top-0 z-40 border-b transition-all duration-500 ${headerCompact ? "border-[#d7cec1]/70 bg-[#f7f3ed]/92 text-[#24323b] shadow-[0_8px_35px_rgba(28,39,46,.08)] backdrop-blur-xl" : "border-white/20 bg-transparent text-white"}`}>
-        <div className={`mx-auto flex max-w-[1440px] items-center justify-between px-5 transition-all duration-500 sm:px-8 lg:px-12 ${headerCompact ? "h-18" : "h-24"}`}>
-          <button onClick={() => scrollToId("top")} aria-label="Go to top" className="transition-opacity hover:opacity-80"><Logo light={!headerCompact} className={`w-28 transition-all duration-500 ${headerCompact ? "h-15" : "h-20"}`} /></button>
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Main navigation">{nav.map(([label, id]) => <button key={id} onClick={() => scrollToId(id)} className={`nav-link relative py-2 text-sm font-medium tracking-wide transition-colors ${activeSection === id ? "is-active" : ""} ${headerCompact ? "text-[#24323b]/75 hover:text-[#24323b]" : "text-white/80 hover:text-white"}`}>{label}</button>)}</nav>
-          <div className="flex items-center gap-3">
-            <Button onClick={() => setBookingOpen(true)} className="motion-button hidden rounded-full bg-[#a48669] px-6 text-white hover:bg-[#8d7056] sm:inline-flex">Book your stay</Button>
-            <Sheet>
-              <SheetTrigger asChild><Button variant="ghost" size="icon" className={`${headerCompact ? "text-[#24323b] hover:bg-[#24323b]/5" : "text-white hover:bg-white/10 hover:text-white"} lg:hidden`} aria-label="Open menu"><Menu className="size-6" /></Button></SheetTrigger>
-              <SheetContent className="border-[#d8d0c5] bg-[#f7f3ed] p-6"><SheetHeader className="p-0"><SheetTitle><Logo className="h-24 w-36" /></SheetTitle></SheetHeader><nav className="mt-10 flex flex-col" aria-label="Mobile navigation">{nav.map(([label, id]) => <SheetClose asChild key={id}><button onClick={() => scrollToId(id)} className="border-b border-[#ded6cb] py-5 text-left font-display text-3xl">{label}</button></SheetClose>)}</nav><SheetClose asChild><Button onClick={() => setBookingOpen(true)} className="mt-8 h-12 rounded-full bg-[#24323b] text-white">Book your stay</Button></SheetClose></SheetContent>
-            </Sheet>
-          </div>
+      <header className={`fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#28333d]/88 text-white backdrop-blur-md transition-all duration-500 ${headerCompact ? "shadow-[0_10px_30px_rgba(20,28,34,.18)]" : ""}`}>
+        <div className={`mx-auto flex max-w-[1440px] items-center justify-between px-5 transition-all duration-500 sm:px-8 lg:px-5 ${headerCompact ? "h-16" : "h-[74px]"}`}>
+          <button onClick={() => scrollToId("top")} aria-label="Go to top" className="transition-opacity hover:opacity-85">
+            <Logo light className={`w-[74px] transition-all duration-500 ${headerCompact ? "h-12" : "h-14"}`} />
+          </button>
+          <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
+            {nav.map(([label, id]) => (
+              <button key={id} onClick={() => scrollToId(id)} className={`nav-link relative py-2 text-[15px] font-medium uppercase tracking-[0.11em] transition-colors ${activeSection === id ? "is-active text-white" : "text-white/72 hover:text-white"}`}>
+                {label}
+              </button>
+            ))}
+          </nav>
+          <Sheet>
+            <SheetTrigger asChild><Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" aria-label="Open menu"><Menu className="size-6" /></Button></SheetTrigger>
+            <SheetContent className="border-[#d8d0c5] bg-[#f7f3ed] p-6"><SheetHeader className="p-0"><SheetTitle><Logo className="h-24 w-36" /></SheetTitle></SheetHeader><nav className="mt-10 flex flex-col" aria-label="Mobile navigation">{nav.map(([label, id]) => <SheetClose asChild key={id}><button onClick={() => scrollToId(id)} className="border-b border-[#ded6cb] py-5 text-left font-display text-3xl">{label}</button></SheetClose>)}</nav><SheetClose asChild><Button onClick={() => setBookingOpen(true)} className="mt-8 h-12 rounded-full bg-[#24323b] text-white">Book your stay</Button></SheetClose></SheetContent>
+          </Sheet>
         </div>
       </header>
 
@@ -358,7 +363,7 @@ export default function HomeClient() {
         <button onClick={() => scrollToId("stay")} aria-label="Explore the house" className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/65"><ChevronDown className="size-7 animate-bounce" /></button>
       </section>
 
-      <section className="relative z-20 mx-auto -mt-16 max-w-6xl px-4 sm:px-6">
+      <section id="booking" className="relative z-20 mx-auto -mt-16 scroll-mt-24 max-w-6xl px-4 sm:px-6">
         <Reveal direction="up"><button onClick={() => setBookingOpen(true)} className="booking-strip grid w-full overflow-hidden rounded-2xl border border-[#d7cec1] bg-[#fbf8f3] text-left shadow-[0_24px_70px_rgba(31,39,43,.16)] md:grid-cols-[1fr_1fr_.75fr_auto]">
           <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-in</small><strong className="mt-1 block font-display text-xl font-normal">Choose your dates</strong></span>
           <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-out</small><strong className="mt-1 block font-display text-xl font-normal">Stay a little longer</strong></span>
@@ -425,6 +430,44 @@ export default function HomeClient() {
       </section>
 
       <section id="faq" className="scroll-mt-20 px-5 py-28 sm:px-8 lg:py-36"><div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[.75fr_1.25fr]"><Reveal direction="left"><div><p className="eyebrow">Good to know</p><h2 className="section-title mt-5">Before you arrive.</h2><div className="mt-8 space-y-4 text-[#666a63]"><p className="flex items-center gap-3"><Clock3 className="size-5 text-[#a48669]" /> Check-in 3 PM · check-out 10 AM</p><p className="flex items-center gap-3"><MapPin className="size-5 text-[#a48669]" /> F94, Bundoran, County Donegal</p><p className="flex items-center gap-3"><Users className="size-5 text-[#a48669]" /> 2 bedrooms · up to 5 guests</p></div></div></Reveal><Reveal direction="right" delay={100}><Accordion type="single" collapsible className="border-t border-[#cfc6ba]">{faqs.map(([question, answer], index) => <AccordionItem key={question} value={`item-${index}`} className="faq-item border-[#cfc6ba]" style={{ "--item-index": index } as CSSProperties}><AccordionTrigger className="py-6 font-display text-xl font-normal hover:no-underline">{question}</AccordionTrigger><AccordionContent className="pb-6 pr-8 text-base leading-7 text-[#666a63]">{answer}</AccordionContent></AccordionItem>)}</Accordion></Reveal></div></section>
+
+      <section id="contact" className="scroll-mt-20 bg-[#fbfaf7] px-5 py-28 sm:px-8 lg:py-36">
+        <div className="mx-auto max-w-7xl">
+          <Reveal>
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="font-display text-[clamp(4rem,7vw,6rem)] font-normal leading-none text-[#2b4153]">Contact</h2>
+              <p className="mt-5 text-lg text-[#8c6b4d]">We&apos;d love to hear from you</p>
+            </div>
+          </Reveal>
+
+          <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_1.05fr]">
+            <Reveal direction="left">
+              <form onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const name = String(data.get("name") || ""); const email = String(data.get("email") || ""); const subject = String(data.get("subject") || "Enquiry from The Hideaway website"); const message = String(data.get("message") || ""); window.location.href = `mailto:hello@thehideaway.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`; }} className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-7 sm:p-9">
+                <h3 className="font-display text-3xl font-normal text-[#2b4153]">Send a Message</h3>
+                <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                  <div><Label htmlFor="contact-name" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Name *</Label><Input id="contact-name" name="name" required className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="Your name" /></div>
+                  <div><Label htmlFor="contact-email" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Email *</Label><Input id="contact-email" name="email" type="email" required className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="you@email.com" /></div>
+                </div>
+                <div className="mt-6"><Label htmlFor="contact-subject" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Subject</Label><Input id="contact-subject" name="subject" className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="What&apos;s this about?" /></div>
+                <div className="mt-6"><Label htmlFor="contact-message" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Message *</Label><Textarea id="contact-message" name="message" required className="mt-2.5 min-h-36 rounded-2xl border-[#e2ddd6] bg-[#fbfaf7] p-4" placeholder="Tell us how we can help..." /></div>
+                <Button type="submit" className="mt-5 h-11 w-full rounded-full bg-[#294154] text-sm uppercase tracking-[0.12em] text-white hover:bg-[#203545]">Send Message <Send className="ml-2 size-4" /></Button>
+              </form>
+            </Reveal>
+
+            <Reveal direction="right" delay={100}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><MapPin className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Address</p><p className="mt-1 leading-6 text-[#2b4153]">The Hideaway, Bundoran, Co. Donegal, Ireland</p></div>
+                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Mail className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Email</p><a href="mailto:hello@thehideaway.ie" className="mt-1 block text-[#2b4153] hover:underline">hello@thehideaway.ie</a></div>
+                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Phone className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Phone</p><a href="tel:+353719841234" className="mt-1 block text-[#2b4153] hover:underline">+353 71 984 1234</a></div>
+                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Clock3 className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Response time</p><p className="mt-1 text-[#2b4153]">Within 24 hours</p></div>
+              </div>
+              <div className="mt-8 overflow-hidden rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0]">
+                <iframe title="Map of Bundoran, County Donegal" src="https://www.google.com/maps?q=Bundoran%2C%20Co.%20Donegal%2C%20Ireland&output=embed" className="h-[300px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
       <section className="cta-section relative overflow-hidden px-5 py-32 text-center text-white sm:px-8 lg:py-44"><img src="/photos/exterior.webp" alt="The Hideaway chalet in Bundoran" className="cta-image absolute inset-0 size-full object-cover object-[center_48%]" loading="lazy" decoding="async" /><div className="absolute inset-0 bg-[#18252d]/70" /><Reveal direction="scale"><div className="relative mx-auto max-w-3xl"><p className="eyebrow !text-white/65">Begin your escape</p><h2 className="mt-5 font-display text-5xl font-light leading-none sm:text-7xl">Donegal is calling.</h2><p className="mx-auto mt-6 max-w-lg text-lg leading-8 text-white/75">Choose your dates and send a request. The hosts will confirm availability and the current rate before any payment.</p><Button onClick={() => setBookingOpen(true)} className="motion-button mt-9 h-13 rounded-full bg-[#f2ece4] px-8 uppercase tracking-[0.14em] text-[#24323b] hover:bg-white">Request your stay</Button></div></Reveal></section>
 
