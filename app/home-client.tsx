@@ -5,7 +5,7 @@ import type { CSSProperties, ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format } from "date-fns";
 import {
-  ArrowRight, Bath, BedDouble, Check, ChevronDown, Clock3, CookingPot, House,
+  ArrowRight, Bath, BedDouble, Check, ChevronDown, Clock3, CookingPot, Facebook, House,
   Mail, MapPin, Menu, Mountain, ParkingCircle, Phone, Send, ShieldCheck, Users, WashingMachine, Wifi,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -87,6 +87,8 @@ const guestReviews = [
     score: "10/10",
   },
 ];
+
+const facebookUrl = "https://www.facebook.com/share/18H1QQzNqN/";
 
 const bookingReviewsUrl = "https://www.booking.com/hotel/ie/modern-2-bedroom-chalet-bundoran.html#tab-reviews";
 
@@ -344,9 +346,10 @@ export default function HomeClient() {
               </button>
             ))}
           </nav>
+          <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Visit The Hideaway on Facebook" className="hidden items-center gap-2 text-white/75 transition hover:-translate-y-0.5 hover:text-white lg:inline-flex"><Facebook className="size-5"/><span className="text-xs uppercase tracking-[.12em]">Facebook</span></a>
           <Sheet>
             <SheetTrigger asChild><Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" aria-label="Open menu"><Menu className="size-6" /></Button></SheetTrigger>
-            <SheetContent className="border-[#d8d0c5] bg-[#f7f3ed] p-6"><SheetHeader className="p-0"><SheetTitle><Logo className="h-24 w-36" /></SheetTitle></SheetHeader><nav className="mt-10 flex flex-col" aria-label="Mobile navigation">{nav.map(([label, id]) => <SheetClose asChild key={id}><button onClick={() => scrollToId(id)} className="border-b border-[#ded6cb] py-5 text-left font-display text-3xl">{label}</button></SheetClose>)}</nav><SheetClose asChild><Button onClick={() => setBookingOpen(true)} className="mt-8 h-12 rounded-full bg-[#24323b] text-white">Book your stay</Button></SheetClose></SheetContent>
+            <SheetContent className="border-[#d8d0c5] bg-[#f7f3ed] p-6"><SheetHeader className="p-0"><SheetTitle><Logo className="h-24 w-36" /></SheetTitle></SheetHeader><nav className="mt-10 flex flex-col" aria-label="Mobile navigation">{nav.map(([label, id]) => <SheetClose asChild key={id}><button onClick={() => scrollToId(id)} className="border-b border-[#ded6cb] py-5 text-left font-display text-3xl">{label}</button></SheetClose>)}</nav><a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="mt-6 flex items-center gap-3 rounded-xl border border-[#ded6cb] p-4 text-[#24323b]"><Facebook className="size-5"/>Follow us on Facebook <ArrowRight className="ml-auto size-4"/></a><SheetClose asChild><Button onClick={() => setBookingOpen(true)} className="mt-8 h-12 rounded-full bg-[#24323b] text-white">Book your stay</Button></SheetClose></SheetContent>
           </Sheet>
         </div>
       </header>
@@ -357,8 +360,8 @@ export default function HomeClient() {
         <div className="relative mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center px-5 pb-28 pt-24 text-center text-white">
           <p className="eyebrow !text-white/75 animate-reveal">Bundoran · County Donegal · Ireland</p>
           <h1 className="mt-5 max-w-5xl font-display text-[clamp(4rem,11vw,9.6rem)] font-light leading-[0.82] tracking-[-0.035em] animate-reveal-delay">The Hideaway</h1>
-          <p className="hero-copy mt-7 max-w-xl text-lg leading-8 text-white/80 sm:text-xl">A bright two-bedroom chalet for countryside calm, Atlantic air and unhurried Donegal days.</p>
-          <Button onClick={() => setBookingOpen(true)} className="motion-button hero-cta mt-9 h-13 rounded-full bg-[#f3eee6] px-8 text-sm uppercase tracking-[0.16em] text-[#24323b] hover:bg-white">Check dates <ArrowRight className="motion-arrow ml-1 size-4" /></Button>
+          <p className="hero-copy mt-7 max-w-xl text-lg leading-8 text-white/80 sm:text-xl">Your private escape along the Wild Atlantic Way. Slow mornings, fresh Atlantic air and a little space to unwind.</p>
+          <div className="hero-cta mt-9 flex flex-wrap items-center justify-center gap-3"><Button onClick={() => setBookingOpen(true)} className="motion-button h-13 rounded-full bg-[#f3eee6] px-8 text-sm uppercase tracking-[0.16em] text-[#24323b] hover:bg-white">Check availability <ArrowRight className="motion-arrow ml-1 size-4" /></Button><button onClick={() => scrollToId("gallery")} className="motion-button inline-flex h-13 items-center rounded-full border border-white/65 bg-white/10 px-8 text-sm uppercase tracking-[0.13em] text-white backdrop-blur-sm hover:bg-white/20">Explore the house <ArrowRight className="motion-arrow ml-2 size-4"/></button></div><div className="hero-facts mt-9 flex flex-wrap justify-center gap-x-7 gap-y-3 text-xs uppercase tracking-[.16em] text-white/80"><span>2 bedrooms</span><span>Up to 5 guests</span><span>Private terrace</span></div>
         </div>
         <button onClick={() => scrollToId("stay")} aria-label="Explore the house" className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/65"><ChevronDown className="size-7 animate-bounce" /></button>
       </section>
@@ -461,7 +464,7 @@ export default function HomeClient() {
                 <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Phone className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Phone</p><a href="tel:+353719841234" className="mt-1 block text-[#2b4153] hover:underline">+353 71 984 1234</a></div>
                 <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Clock3 className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Response time</p><p className="mt-1 text-[#2b4153]">Within 24 hours</p></div>
               </div>
-              <div className="mt-8 overflow-hidden rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0]">
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="facebook-contact mt-5 flex items-center gap-4 rounded-[1.5rem] bg-[#24323b] px-6 py-5 text-white"><Facebook className="size-6"/><span className="flex-1"><strong className="block font-display text-xl font-normal">Find us on Facebook</strong><small className="text-white/65">Photos, news and updates from The Hideaway</small></span><ArrowRight className="size-5"/></a><div className="mt-8 overflow-hidden rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0]">
                 <iframe title="Map of Bundoran, County Donegal" src="https://www.google.com/maps?q=Bundoran%2C%20Co.%20Donegal%2C%20Ireland&output=embed" className="h-[300px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
               </div>
             </Reveal>
@@ -471,7 +474,7 @@ export default function HomeClient() {
 
       <section className="cta-section relative overflow-hidden px-5 py-32 text-center text-white sm:px-8 lg:py-44"><img src="/photos/exterior.webp" alt="The Hideaway chalet in Bundoran" className="cta-image absolute inset-0 size-full object-cover object-[center_48%]" loading="lazy" decoding="async" /><div className="absolute inset-0 bg-[#18252d]/70" /><Reveal direction="scale"><div className="relative mx-auto max-w-3xl"><p className="eyebrow !text-white/65">Begin your escape</p><h2 className="mt-5 font-display text-5xl font-light leading-none sm:text-7xl">Donegal is calling.</h2><p className="mx-auto mt-6 max-w-lg text-lg leading-8 text-white/75">Choose your dates and send a request. The hosts will confirm availability and the current rate before any payment.</p><Button onClick={() => setBookingOpen(true)} className="motion-button mt-9 h-13 rounded-full bg-[#f2ece4] px-8 uppercase tracking-[0.14em] text-[#24323b] hover:bg-white">Request your stay</Button></div></Reveal></section>
 
-      <footer className="bg-[#1a272f] px-5 py-16 text-white sm:px-8"><div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.2fr_.8fr_.8fr]"><div><Logo light className="h-36 w-52" /><p className="max-w-sm leading-7 text-white/55">A private holiday home on Ireland’s Wild Atlantic coast.</p></div><div><p className="text-xs uppercase tracking-[0.2em] text-white/45">Explore</p><div className="mt-5 flex flex-col gap-3">{nav.map(([label, id]) => <button key={id} onClick={() => scrollToId(id)} className="w-fit text-left text-white/70 hover:text-white">{label}</button>)}</div></div><div><p className="text-xs uppercase tracking-[0.2em] text-white/45">Contact</p><div className="mt-5 space-y-4 text-white/70"><p className="flex gap-3"><MapPin className="mt-1 size-4 shrink-0" /> Bundoran, Co. Donegal, Ireland</p><a href="mailto:hello@thehideaway.ie" className="flex gap-3 hover:text-white"><Mail className="mt-1 size-4 shrink-0" /> hello@thehideaway.ie</a></div></div></div><div className="mx-auto mt-12 flex max-w-7xl flex-col gap-2 border-t border-white/10 pt-7 text-xs text-white/35 sm:flex-row sm:justify-between"><p>© {new Date().getFullYear()} The Hideaway</p><p>Holiday home rental · Ireland</p></div></footer>
+      <footer className="bg-[#1a272f] px-5 py-16 text-white sm:px-8"><div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.2fr_.8fr_.8fr]"><div><Logo light className="h-36 w-52" /><p className="max-w-sm leading-7 text-white/55">A private holiday home on Ireland’s Wild Atlantic coast.</p></div><div><p className="text-xs uppercase tracking-[0.2em] text-white/45">Explore</p><div className="mt-5 flex flex-col gap-3">{nav.map(([label, id]) => <button key={id} onClick={() => scrollToId(id)} className="w-fit text-left text-white/70 hover:text-white">{label}</button>)}</div></div><div><p className="text-xs uppercase tracking-[0.2em] text-white/45">Contact</p><div className="mt-5 space-y-4 text-white/70"><p className="flex gap-3"><MapPin className="mt-1 size-4 shrink-0" /> Bundoran, Co. Donegal, Ireland</p><a href="mailto:hello@thehideaway.ie" className="flex gap-3 hover:text-white"><Mail className="mt-1 size-4 shrink-0" /> hello@thehideaway.ie</a><a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white"><Facebook className="size-4 shrink-0"/>Follow on Facebook <ArrowRight className="size-3"/></a></div></div></div><div className="mx-auto mt-12 flex max-w-7xl flex-col gap-2 border-t border-white/10 pt-7 text-xs text-white/35 sm:flex-row sm:justify-between"><p>© {new Date().getFullYear()} The Hideaway</p><p>Holiday home rental · Ireland</p></div></footer>
 
       <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
     </main>
