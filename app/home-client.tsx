@@ -373,6 +373,19 @@ export default function HomeClient() {
           <div className="coastal-art relative min-h-[325px] sm:min-h-[450px] lg:min-h-[555px]" aria-label="Watercolour illustration inspired by the rental entrance and Donegal coast">
             <img src="/images/hideaway-watercolor-hd.webp" alt="Watercolour illustration of The Hideaway entrance and the Donegal coast" className="coastal-paint absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
             <div className="coastal-sky-glow" aria-hidden="true" />
+            {/* A separate lightweight character briefly walks toward the entrance.
+                The watercolor background itself remains unchanged. */}
+            <div className="hideaway-walker" aria-hidden="true">
+              <svg className="hideaway-walker-figure" viewBox="0 0 36 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="18" cy="71" rx="12" ry="2.4" fill="#506055" opacity=".22" />
+                <circle cx="18" cy="11" r="7" fill="#e9c6a4" />
+                <path d="M10 9 Q17 0 25 9 L25 14 Q18 11 11 15 Z" fill="#645244" />
+                <path d="M14 19 Q18 16 22 19 L27 42 L9 42 Z" fill="#eae5da" stroke="#6b776b" strokeWidth="1.4" />
+                <path d="M12 24 L7 40 M24 24 L29 39" stroke="#d7b48f" strokeWidth="3" strokeLinecap="round" />
+                <path className="hideaway-step-left" d="M15 42 L13 60 L11 70" stroke="#464f50" strokeWidth="3.3" strokeLinecap="round" />
+                <path className="hideaway-step-right" d="M21 42 L23 59 L25 70" stroke="#464f50" strokeWidth="3.3" strokeLinecap="round" />
+              </svg>
+            </div>
             <div className="hideaway-gulls" aria-hidden="true">
               {[0, 1, 2].map((bird) => (
                 <svg key={bird} className={`hideaway-gull hideaway-gull-${bird + 1}`} viewBox="0 0 64 36" fill="none">

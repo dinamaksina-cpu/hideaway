@@ -324,3 +324,27 @@ button, a { -webkit-tap-highlight-color: transparent; }
  .hideaway-gull-wings {animation:none!important;}
  .hideaway-booking-section .booking-strip:hover {transform:none;}
 }
+
+/* The Hideaway motion pass: short cinematic entrance + subtle ongoing life. */
+html { scroll-behavior:smooth; scroll-padding-top:76px; }
+.hideaway-logo-intro { animation: hideaway-intro-out .95s 1.35s ease-in-out forwards; }
+.hideaway-logo-intro-mark { animation: hideaway-intro-mark 1.05s cubic-bezier(.2,.7,.2,1) both; }
+.hideaway-logo-intro-caption { animation: hideaway-caption-in .8s .3s both; }
+@keyframes hideaway-caption-in {from{opacity:0;letter-spacing:.25em}to{opacity:1;letter-spacing:.18em}}
+.hideaway-walker { position:absolute; left:27%; top:59%; z-index:4; width:28px; height:59px; opacity:0; pointer-events:none; transform-origin:bottom center; animation: hideaway-walk-in 7.8s 2.1s ease-in-out 1 both; }
+.hideaway-walker-figure {display:block;width:100%;height:100%;filter:drop-shadow(0 2px 2px rgba(42,49,44,.18))}
+.hideaway-step-left {transform-origin:15px 42px;animation:hideaway-leg-a .44s ease-in-out 7 alternate}
+.hideaway-step-right {transform-origin:21px 42px;animation:hideaway-leg-b .44s ease-in-out 7 alternate}
+@keyframes hideaway-walk-in { 0%{opacity:0;transform:translate(-32px,12px) scale(.82)} 8%{opacity:.88} 49%{opacity:.9;transform:translate(24px,1px) scale(.65)} 62%{opacity:.65;transform:translate(35px,-3px) scale(.57)} 69%,100%{opacity:0;transform:translate(42px,-5px) scale(.53)} }
+@keyframes hideaway-leg-a {from{transform:rotate(-17deg)}to{transform:rotate(19deg)}}
+@keyframes hideaway-leg-b {from{transform:rotate(18deg)}to{transform:rotate(-18deg)}}
+.hideaway-gull {filter:drop-shadow(0 1px 1px rgba(255,255,255,.3))}
+.hideaway-gull-1 {left:61%;top:21%;animation-duration:17s}
+.hideaway-gull-2 {left:68%;top:26%;animation-duration:22s}
+.hideaway-gull-3 {left:56%;top:17%;animation-duration:24s}
+.coastal-reason {transition:transform .4s ease,background-color .4s ease}
+.coastal-reason:hover {transform:translateY(-4px)}
+.coastal-hero .motion-button,.booking-strip {transition:transform .35s ease, box-shadow .35s ease, background-color .35s ease}
+.coastal-hero .motion-button:hover {transform:translateY(-2px)}
+@media(max-width:767px){.hideaway-walker{left:26%;top:61%;width:20px;height:44px}.coastal-reason:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.hideaway-walker,.hideaway-step-left,.hideaway-step-right,.hideaway-logo-intro-caption{animation:none!important}.hideaway-walker{display:none!important}.coastal-reason:hover,.coastal-hero .motion-button:hover{transform:none!important}}
