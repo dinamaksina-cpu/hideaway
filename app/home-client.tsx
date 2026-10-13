@@ -365,9 +365,10 @@ export default function HomeClient() {
       <section id="top" className="coastal-hero relative isolate overflow-hidden bg-[#fbfaf7] pt-[74px]">
         <div className="coastal-hero-grid mx-auto grid max-w-[1560px] items-center lg:grid-cols-[58%_42%]">
           <div className="coastal-art relative min-h-[325px] sm:min-h-[450px] lg:min-h-[555px]" aria-label="Watercolour illustration inspired by the rental entrance and Donegal coast">
-            <img src="/images/hideaway-watercolor.webp" alt="Watercolour illustration of The Hideaway entrance and the Donegal coast" className="coastal-paint absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
-            <span className="coastal-bird coastal-bird-one" aria-hidden="true">⌁</span>
-            <span className="coastal-bird coastal-bird-two" aria-hidden="true">⌁</span>
+            <img src="/images/hideaway-watercolor-hd.webp" alt="Watercolour illustration of The Hideaway entrance and the Donegal coast" className="coastal-paint absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
+            <div className="coastal-sky-glow" aria-hidden="true" />
+            <svg className="coastal-flying-bird coastal-flying-bird-one" aria-hidden="true" viewBox="0 0 60 30" fill="none"><path d="M2 16 Q16 3 30 17 Q43 4 58 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            <svg className="coastal-flying-bird coastal-flying-bird-two" aria-hidden="true" viewBox="0 0 60 30" fill="none"><path d="M2 16 Q16 3 30 17 Q43 4 58 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
           </div>
           <div className="coastal-content relative z-10 px-6 pb-10 pt-3 sm:px-10 lg:-ml-8 lg:py-12 lg:pr-8 xl:pr-12">
             <p className="coastal-entrance text-[10px] font-medium uppercase tracking-[.20em] text-[#66727a] sm:text-xs">Bundoran · County Donegal · Ireland</p>
