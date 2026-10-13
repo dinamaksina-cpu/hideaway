@@ -362,22 +362,43 @@ export default function HomeClient() {
         </div>
       </header>
 
-      <section id="top" className="hideaway-hero relative min-h-[650px] h-[88svh] max-h-[870px] overflow-hidden bg-[#26343b] sm:min-h-[620px]">
-        <img ref={heroImageRef} src="/photos/living-wide.webp" alt="The Hideaway living room overlooking the Donegal countryside" className="hero-parallax absolute inset-0 size-full object-cover object-[center_52%]" loading="eager" fetchPriority="high" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(19,31,35,.80)_0%,rgba(19,31,35,.53)_43%,rgba(19,31,35,.10)_100%)] max-md:bg-[linear-gradient(180deg,rgba(19,31,35,.52)_0%,rgba(19,31,35,.35)_35%,rgba(19,31,35,.75)_100%)]" />
-        <div className="relative mx-auto flex h-full max-w-7xl flex-col items-start justify-center px-7 pb-14 pt-24 text-left text-white sm:px-12 lg:px-16">
-          <div className="max-w-[660px]">
-            <p className="eyebrow !text-[#e7d6c0] animate-reveal">A quiet retreat · Bundoran, Donegal</p>
-            <h1 className="mt-5 font-display text-[clamp(4.2rem,7.4vw,7.4rem)] font-light leading-[.92] tracking-[-.045em] animate-reveal-delay">The<br className="hidden sm:block"/> Hideaway<span className="text-[#c6ab8e]">.</span></h1>
-            <p className="hero-copy mt-7 max-w-md text-base leading-7 text-white/90 sm:text-lg sm:leading-8">Slow mornings, Atlantic air and a place to feel at home. Your private escape on Ireland’s Wild Atlantic Way.</p>
-            <div className="hero-cta mt-8 flex flex-wrap items-center justify-start gap-3"><Button onClick={() => setBookingOpen(true)} className="motion-button h-12 rounded-full bg-[#eee5d9] px-7 text-xs font-medium uppercase tracking-[0.13em] text-[#25343b] hover:bg-white">Check availability <ArrowRight className="motion-arrow ml-2 size-4" /></Button><button onClick={() => scrollToId("gallery")} className="motion-button inline-flex h-12 items-center rounded-full border border-white/55 px-6 text-xs uppercase tracking-[0.13em] text-white hover:bg-white/15">Explore the house <ArrowRight className="motion-arrow ml-2 size-4"/></button></div>
+      <section id="top" className="coastal-hero relative isolate overflow-hidden bg-[#fbfaf7] pt-[74px]">
+        <div className="coastal-hero-grid mx-auto grid max-w-[1560px] items-center lg:grid-cols-[58%_42%]">
+          <div className="coastal-art relative min-h-[325px] sm:min-h-[450px] lg:min-h-[555px]" aria-label="Watercolour illustration inspired by the rental entrance and Donegal coast">
+            <img src="/images/hideaway-watercolor.webp" alt="Watercolour illustration of The Hideaway entrance and the Donegal coast" className="coastal-paint absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
+            <span className="coastal-bird coastal-bird-one" aria-hidden="true">⌁</span>
+            <span className="coastal-bird coastal-bird-two" aria-hidden="true">⌁</span>
           </div>
-          <div className="hero-facts absolute bottom-20 left-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-medium uppercase tracking-[.13em] text-white/85 sm:left-12 lg:left-16"><span>2 bedrooms</span><span>Up to 5 guests</span><span>Private terrace</span></div>
+          <div className="coastal-content relative z-10 px-6 pb-10 pt-3 sm:px-10 lg:-ml-8 lg:py-12 lg:pr-8 xl:pr-12">
+            <p className="coastal-entrance text-[10px] font-medium uppercase tracking-[.20em] text-[#66727a] sm:text-xs">Bundoran · County Donegal · Ireland</p>
+            <div className="coastal-rule mt-4 h-px w-11 bg-[#c0b19e]" />
+            <h1 className="coastal-entrance coastal-heading mt-5 font-display text-[clamp(3.5rem,5.1vw,6rem)] font-light leading-[1] tracking-[-.045em] text-[#213440]">The Hideaway</h1>
+            <p className="coastal-entrance mt-5 max-w-xl text-base leading-[1.85] text-[#57666f] sm:text-lg">Your private escape along the Wild Atlantic Way. Slow mornings, fresh Atlantic air and a little space to unwind.</p>
+            <div className="coastal-entrance mt-7 flex flex-wrap gap-3">
+              <button onClick={() => setBookingOpen(true)} className="motion-button inline-flex min-h-12 items-center gap-3 rounded-full bg-[#233640] px-6 text-xs font-medium uppercase tracking-[.11em] text-white hover:bg-[#334f5b]">Check availability <ArrowRight className="motion-arrow size-4" /></button>
+              <button onClick={() => scrollToId('stay')} className="motion-button inline-flex min-h-12 items-center gap-3 rounded-full border border-[#8996a0] px-6 text-xs font-medium uppercase tracking-[.11em] text-[#233640] hover:bg-white">Learn more <ChevronDown className="size-4" /></button>
+            </div>
+            <div className="coastal-entrance mt-10 grid grid-cols-2 gap-4 border-t border-[#e3dfd7] pt-5 text-[#2a414d] sm:grid-cols-4 lg:gap-2">
+              <div className="coastal-fact"><Users className="size-5"/><span>Sleeps<br/>up to 5</span></div>
+              <div className="coastal-fact"><BedDouble className="size-5"/><span>2<br/>bedrooms</span></div>
+              <div className="coastal-fact"><House className="size-5"/><span>Private<br/>patio</span></div>
+              <div className="coastal-fact"><Mountain className="size-5"/><span>Close to<br/>beach & town</span></div>
+            </div>
+          </div>
         </div>
-        <button onClick={() => scrollToId("stay")} aria-label="Explore the house" className="absolute bottom-6 right-8 text-white/70 transition-transform hover:translate-y-1"><ChevronDown className="size-6" /></button>
+      </section>
+      <section aria-labelledby="why-guests-heading" className="coastal-why bg-[#fbfaf7] px-5 pb-14 pt-10 sm:px-8 sm:pb-20 lg:pt-8">
+        <div className="mx-auto max-w-6xl">
+          <Reveal><div className="mb-10 text-center"><p className="text-[11px] uppercase tracking-[.22em] text-[#66727a]">A special place</p><div className="mx-auto my-3 h-px w-10 bg-[#beae99]"/><h2 id="why-guests-heading" className="font-display text-4xl font-light text-[#213440] sm:text-5xl">Why guests love it</h2></div></Reveal>
+          <div className="grid gap-9 md:grid-cols-3 md:gap-0">
+            <Reveal delay={80}><div className="coastal-reason"><div className="coastal-reason-icon"><Mountain className="size-6"/></div><h3>Stunning location</h3><p>Just minutes from Bundoran's beaches and the Wild Atlantic Way, with dramatic scenery nearby.</p></div></Reveal>
+            <Reveal delay={170}><div className="coastal-reason"><div className="coastal-reason-icon"><House className="size-6"/></div><h3>A home from home</h3><p>Comfortable and thoughtfully equipped, with everything you need for a relaxing stay.</p></div></Reveal>
+            <Reveal delay={260}><div className="coastal-reason"><div className="coastal-reason-icon"><ShieldCheck className="size-6"/></div><h3>Peace and privacy</h3><p>Enjoy a quiet setting, fresh Atlantic air and a little space to unwind, whether it's a weekend away or a longer escape.</p></div></Reveal>
+          </div>
+        </div>
       </section>
 
-      <section id="booking" className="relative z-20 mx-auto -mt-16 scroll-mt-24 max-w-6xl px-4 sm:px-6">
+      <section id="booking" className="relative z-20 mx-auto mt-0 scroll-mt-24 max-w-6xl px-4 sm:px-6">
         <Reveal direction="up"><button onClick={() => setBookingOpen(true)} className="booking-strip grid w-full overflow-hidden rounded-2xl border border-[#d7cec1] bg-[#fbf8f3] text-left shadow-[0_24px_70px_rgba(31,39,43,.16)] md:grid-cols-[1fr_1fr_.75fr_auto]">
           <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-in</small><strong className="mt-1 block font-display text-xl font-normal">Choose your dates</strong></span>
           <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-out</small><strong className="mt-1 block font-display text-xl font-normal">Stay a little longer</strong></span>
