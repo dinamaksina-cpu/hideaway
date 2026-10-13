@@ -341,7 +341,13 @@ export default function HomeClient() {
 
   return (
     <main className="overflow-x-hidden bg-[#f7f3ed] text-[#24323b]">
-      <div aria-hidden="true" className="page-intro" />
+      <div aria-hidden="true" className="page-intro hideaway-logo-intro">
+        <div className="hideaway-logo-intro-inner">
+          <img src="/images/logo.png" alt="" className="hideaway-logo-intro-mark" />
+          <span className="hideaway-logo-intro-line" />
+          <span className="hideaway-logo-intro-caption">A little place to get away from it all</span>
+        </div>
+      </div>
       <div ref={progressRef} aria-hidden="true" className="scroll-progress" />
       <header className={`fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#28333d]/88 text-white backdrop-blur-md transition-all duration-500 ${headerCompact ? "shadow-[0_10px_30px_rgba(20,28,34,.18)]" : ""}`}>
         <div className={`mx-auto flex max-w-[1440px] items-center justify-between px-5 transition-all duration-500 sm:px-8 lg:px-5 ${headerCompact ? "h-16" : "h-[74px]"}`}>
@@ -367,8 +373,16 @@ export default function HomeClient() {
           <div className="coastal-art relative min-h-[325px] sm:min-h-[450px] lg:min-h-[555px]" aria-label="Watercolour illustration inspired by the rental entrance and Donegal coast">
             <img src="/images/hideaway-watercolor-hd.webp" alt="Watercolour illustration of The Hideaway entrance and the Donegal coast" className="coastal-paint absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
             <div className="coastal-sky-glow" aria-hidden="true" />
-            <svg className="coastal-flying-bird coastal-flying-bird-one" aria-hidden="true" viewBox="0 0 60 30" fill="none"><path d="M2 16 Q16 3 30 17 Q43 4 58 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-            <svg className="coastal-flying-bird coastal-flying-bird-two" aria-hidden="true" viewBox="0 0 60 30" fill="none"><path d="M2 16 Q16 3 30 17 Q43 4 58 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            <div className="hideaway-gulls" aria-hidden="true">
+              {[0, 1, 2].map((bird) => (
+                <svg key={bird} className={`hideaway-gull hideaway-gull-${bird + 1}`} viewBox="0 0 64 36" fill="none">
+                  <g className="hideaway-gull-wings" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M32 22 Q20 7 2 14 Q19 13 32 22" />
+                    <path d="M32 22 Q46 7 62 14 Q46 13 32 22" />
+                  </g>
+                </svg>
+              ))}
+            </div>
           </div>
           <div className="coastal-content relative z-10 px-6 pb-10 pt-3 sm:px-10 lg:-ml-8 lg:py-12 lg:pr-8 xl:pr-12">
             <p className="coastal-entrance text-[10px] font-medium uppercase tracking-[.20em] text-[#66727a] sm:text-xs">Bundoran · County Donegal · Ireland</p>
@@ -387,16 +401,16 @@ export default function HomeClient() {
           </div>
         </div>
       </section>
-      <section id="booking" className="relative z-20 mx-auto mt-0 scroll-mt-24 max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-        <Reveal direction="up"><button onClick={() => setBookingOpen(true)} className="booking-strip grid w-full overflow-hidden rounded-2xl border border-[#d7cec1] bg-[#fbf8f3] text-left shadow-[0_24px_70px_rgba(31,39,43,.16)] md:grid-cols-[1fr_1fr_.75fr_auto]">
+      <section id="booking" className="hideaway-booking-section relative z-20 scroll-mt-24 px-4 pb-8 pt-8 sm:px-6 sm:pb-10 sm:pt-10">
+        <div className="mx-auto max-w-6xl"><Reveal direction="up"><button onClick={() => setBookingOpen(true)} className="booking-strip grid w-full overflow-hidden rounded-2xl border border-[#d7cec1] bg-[#fbf8f3] text-left shadow-[0_24px_70px_rgba(31,39,43,.16)] md:grid-cols-[1fr_1fr_.75fr_auto]">
           <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-in</small><strong className="mt-1 block font-display text-xl font-normal">Choose your dates</strong></span>
           <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-out</small><strong className="mt-1 block font-display text-xl font-normal">Stay a little longer</strong></span>
           <span className="p-5 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Guests</small><strong className="mt-1 block font-display text-xl font-normal">Up to 5</strong></span>
           <span className="flex items-center justify-center bg-[#a48669] px-8 py-5 text-sm font-medium uppercase tracking-[0.14em] text-white">Check availability <ArrowRight className="motion-arrow ml-3 size-4" /></span>
-        </button></Reveal>
+        </button></Reveal></div>
       </section>
 
-      <section aria-labelledby="why-guests-heading" className="coastal-why bg-[#fbfaf7] px-5 pb-14 pt-10 sm:px-8 sm:pb-20 lg:pt-8">
+      <section aria-labelledby="why-guests-heading" className="coastal-why hideaway-why-section px-5 pb-14 pt-6 sm:px-8 sm:pb-20 lg:pt-8">
         <div className="mx-auto max-w-6xl">
           <Reveal><div className="mb-10 text-center"><p className="text-[11px] uppercase tracking-[.22em] text-[#66727a]">A special place</p><div className="mx-auto my-3 h-px w-10 bg-[#beae99]"/><h2 id="why-guests-heading" className="font-display text-4xl font-light text-[#213440] sm:text-5xl">Why guests love it</h2></div></Reveal>
           <div className="grid gap-9 md:grid-cols-3 md:gap-0">
