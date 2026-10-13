@@ -376,8 +376,7 @@ export default function HomeClient() {
             <h1 className="coastal-entrance coastal-heading mt-5 font-display text-[clamp(3.5rem,5.1vw,6rem)] font-light leading-[1] tracking-[-.045em] text-[#213440]">The Hideaway</h1>
             <p className="coastal-entrance mt-5 max-w-xl text-base leading-[1.85] text-[#57666f] sm:text-lg">Your private escape along the Wild Atlantic Way. Slow mornings, fresh Atlantic air and a little space to unwind.</p>
             <div className="coastal-entrance mt-7 flex flex-wrap gap-3">
-              <button onClick={() => setBookingOpen(true)} className="motion-button inline-flex min-h-12 items-center gap-3 rounded-full bg-[#233640] px-6 text-xs font-medium uppercase tracking-[.11em] text-white hover:bg-[#334f5b]">Check availability <ArrowRight className="motion-arrow size-4" /></button>
-              <button onClick={() => scrollToId('stay')} className="motion-button inline-flex min-h-12 items-center gap-3 rounded-full border border-[#8996a0] px-6 text-xs font-medium uppercase tracking-[.11em] text-[#233640] hover:bg-white">Learn more <ChevronDown className="size-4" /></button>
+              <button onClick={() => scrollToId('stay')} className="motion-button inline-flex min-h-12 items-center gap-3 rounded-full border border-[#8996a0] px-6 text-xs font-medium uppercase tracking-[.11em] text-[#233640] hover:bg-white">Explore the house <ChevronDown className="size-4" /></button>
             </div>
             <div className="coastal-entrance mt-10 grid grid-cols-2 gap-4 border-t border-[#e3dfd7] pt-5 text-[#2a414d] sm:grid-cols-4 lg:gap-2">
               <div className="coastal-fact"><Users className="size-5"/><span>Sleeps<br/>up to 5</span></div>
@@ -388,6 +387,15 @@ export default function HomeClient() {
           </div>
         </div>
       </section>
+      <section id="booking" className="relative z-20 mx-auto mt-0 scroll-mt-24 max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+        <Reveal direction="up"><button onClick={() => setBookingOpen(true)} className="booking-strip grid w-full overflow-hidden rounded-2xl border border-[#d7cec1] bg-[#fbf8f3] text-left shadow-[0_24px_70px_rgba(31,39,43,.16)] md:grid-cols-[1fr_1fr_.75fr_auto]">
+          <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-in</small><strong className="mt-1 block font-display text-xl font-normal">Choose your dates</strong></span>
+          <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-out</small><strong className="mt-1 block font-display text-xl font-normal">Stay a little longer</strong></span>
+          <span className="p-5 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Guests</small><strong className="mt-1 block font-display text-xl font-normal">Up to 5</strong></span>
+          <span className="flex items-center justify-center bg-[#a48669] px-8 py-5 text-sm font-medium uppercase tracking-[0.14em] text-white">Check availability <ArrowRight className="motion-arrow ml-3 size-4" /></span>
+        </button></Reveal>
+      </section>
+
       <section aria-labelledby="why-guests-heading" className="coastal-why bg-[#fbfaf7] px-5 pb-14 pt-10 sm:px-8 sm:pb-20 lg:pt-8">
         <div className="mx-auto max-w-6xl">
           <Reveal><div className="mb-10 text-center"><p className="text-[11px] uppercase tracking-[.22em] text-[#66727a]">A special place</p><div className="mx-auto my-3 h-px w-10 bg-[#beae99]"/><h2 id="why-guests-heading" className="font-display text-4xl font-light text-[#213440] sm:text-5xl">Why guests love it</h2></div></Reveal>
@@ -397,15 +405,6 @@ export default function HomeClient() {
             <Reveal delay={260}><div className="coastal-reason"><div className="coastal-reason-icon"><ShieldCheck className="size-6"/></div><h3>Peace and privacy</h3><p>Enjoy a quiet setting, fresh Atlantic air and a little space to unwind, whether it's a weekend away or a longer escape.</p></div></Reveal>
           </div>
         </div>
-      </section>
-
-      <section id="booking" className="relative z-20 mx-auto mt-0 scroll-mt-24 max-w-6xl px-4 sm:px-6">
-        <Reveal direction="up"><button onClick={() => setBookingOpen(true)} className="booking-strip grid w-full overflow-hidden rounded-2xl border border-[#d7cec1] bg-[#fbf8f3] text-left shadow-[0_24px_70px_rgba(31,39,43,.16)] md:grid-cols-[1fr_1fr_.75fr_auto]">
-          <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-in</small><strong className="mt-1 block font-display text-xl font-normal">Choose your dates</strong></span>
-          <span className="border-b border-[#ded6cb] p-5 md:border-b-0 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Check-out</small><strong className="mt-1 block font-display text-xl font-normal">Stay a little longer</strong></span>
-          <span className="p-5 md:border-r"><small className="block text-xs uppercase tracking-[0.16em] text-[#7d7e78]">Guests</small><strong className="mt-1 block font-display text-xl font-normal">Up to 5</strong></span>
-          <span className="flex items-center justify-center bg-[#a48669] px-8 py-5 text-sm font-medium uppercase tracking-[0.14em] text-white">Check availability <ArrowRight className="motion-arrow ml-3 size-4" /></span>
-        </button></Reveal>
       </section>
 
       <section id="stay" className="scroll-mt-20 px-5 py-28 sm:px-8 lg:py-40">
