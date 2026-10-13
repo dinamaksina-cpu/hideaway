@@ -1,0 +1,1 @@
+Copy the app folder into your existing GitHub repository, replace two files, then Commit and Push in GitHub Desktop. No other files are included. Facebook remains in footer only. Note: contact form currently opens an email client (mailto).

@@ -355,24 +355,26 @@ export default function HomeClient() {
               </button>
             ))}
           </nav>
-          <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Visit The Hideaway on Facebook" className="hidden items-center gap-2 text-white/75 transition hover:-translate-y-0.5 hover:text-white lg:inline-flex"><Facebook className="size-5"/><span className="text-xs uppercase tracking-[.12em]">Facebook</span></a>
           <Sheet>
             <SheetTrigger asChild><Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" aria-label="Open menu"><Menu className="size-6" /></Button></SheetTrigger>
-            <SheetContent className="border-[#d8d0c5] bg-[#f7f3ed] p-6"><SheetHeader className="p-0"><SheetTitle><Logo className="h-24 w-36" /></SheetTitle></SheetHeader><nav className="mt-10 flex flex-col" aria-label="Mobile navigation">{nav.map(([label, id]) => <SheetClose asChild key={id}><button onClick={() => scrollToId(id)} className="border-b border-[#ded6cb] py-5 text-left font-display text-3xl">{label}</button></SheetClose>)}</nav><a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="mt-6 flex items-center gap-3 rounded-xl border border-[#ded6cb] p-4 text-[#24323b]"><Facebook className="size-5"/>Follow us on Facebook <ArrowRight className="ml-auto size-4"/></a><SheetClose asChild><Button onClick={() => setBookingOpen(true)} className="mt-8 h-12 rounded-full bg-[#24323b] text-white">Book your stay</Button></SheetClose></SheetContent>
+            <SheetContent className="border-[#d8d0c5] bg-[#f7f3ed] p-6"><SheetHeader className="p-0"><SheetTitle><Logo className="h-24 w-36" /></SheetTitle></SheetHeader><nav className="mt-10 flex flex-col" aria-label="Mobile navigation">{nav.map(([label, id]) => <SheetClose asChild key={id}><button onClick={() => scrollToId(id)} className="border-b border-[#ded6cb] py-5 text-left font-display text-3xl">{label}</button></SheetClose>)}</nav><SheetClose asChild><Button onClick={() => setBookingOpen(true)} className="mt-8 h-12 rounded-full bg-[#24323b] text-white">Book your stay</Button></SheetClose></SheetContent>
           </Sheet>
         </div>
       </header>
 
-      <section id="top" className="relative h-[100svh] min-h-[760px] overflow-hidden bg-[#1d2a32]">
-        <img ref={heroImageRef} src="/photos/living-wide.webp" alt="The Hideaway living room overlooking the Donegal countryside" className="hero-parallax absolute inset-0 size-full object-cover object-center" loading="eager" fetchPriority="high" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(16,26,32,.55)_0%,rgba(16,26,32,.14)_42%,rgba(16,26,32,.72)_100%)]" />
-        <div className="relative mx-auto flex h-full max-w-[1440px] flex-col items-center justify-center px-5 pb-28 pt-24 text-center text-white">
-          <p className="eyebrow !text-white/75 animate-reveal">Bundoran · County Donegal · Ireland</p>
-          <h1 className="mt-5 max-w-5xl font-display text-[clamp(4rem,11vw,9.6rem)] font-light leading-[0.82] tracking-[-0.035em] animate-reveal-delay">The Hideaway</h1>
-          <p className="hero-copy mt-7 max-w-xl text-lg leading-8 text-white/80 sm:text-xl">Your private escape along the Wild Atlantic Way. Slow mornings, fresh Atlantic air and a little space to unwind.</p>
-          <div className="hero-cta mt-9 flex flex-wrap items-center justify-center gap-3"><Button onClick={() => setBookingOpen(true)} className="motion-button h-13 rounded-full bg-[#f3eee6] px-8 text-sm uppercase tracking-[0.16em] text-[#24323b] hover:bg-white">Check availability <ArrowRight className="motion-arrow ml-1 size-4" /></Button><button onClick={() => scrollToId("gallery")} className="motion-button inline-flex h-13 items-center rounded-full border border-white/65 bg-white/10 px-8 text-sm uppercase tracking-[0.13em] text-white backdrop-blur-sm hover:bg-white/20">Explore the house <ArrowRight className="motion-arrow ml-2 size-4"/></button></div><div className="hero-facts mt-9 flex flex-wrap justify-center gap-x-7 gap-y-3 text-xs uppercase tracking-[.16em] text-white/80"><span>2 bedrooms</span><span>Up to 5 guests</span><span>Private terrace</span></div>
+      <section id="top" className="hideaway-hero relative min-h-[650px] h-[88svh] max-h-[870px] overflow-hidden bg-[#26343b] sm:min-h-[620px]">
+        <img ref={heroImageRef} src="/photos/living-wide.webp" alt="The Hideaway living room overlooking the Donegal countryside" className="hero-parallax absolute inset-0 size-full object-cover object-[center_52%]" loading="eager" fetchPriority="high" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(19,31,35,.80)_0%,rgba(19,31,35,.53)_43%,rgba(19,31,35,.10)_100%)] max-md:bg-[linear-gradient(180deg,rgba(19,31,35,.52)_0%,rgba(19,31,35,.35)_35%,rgba(19,31,35,.75)_100%)]" />
+        <div className="relative mx-auto flex h-full max-w-7xl flex-col items-start justify-center px-7 pb-14 pt-24 text-left text-white sm:px-12 lg:px-16">
+          <div className="max-w-[660px]">
+            <p className="eyebrow !text-[#e7d6c0] animate-reveal">A quiet retreat · Bundoran, Donegal</p>
+            <h1 className="mt-5 font-display text-[clamp(4.2rem,7.4vw,7.4rem)] font-light leading-[.92] tracking-[-.045em] animate-reveal-delay">The<br className="hidden sm:block"/> Hideaway<span className="text-[#c6ab8e]">.</span></h1>
+            <p className="hero-copy mt-7 max-w-md text-base leading-7 text-white/90 sm:text-lg sm:leading-8">Slow mornings, Atlantic air and a place to feel at home. Your private escape on Ireland’s Wild Atlantic Way.</p>
+            <div className="hero-cta mt-8 flex flex-wrap items-center justify-start gap-3"><Button onClick={() => setBookingOpen(true)} className="motion-button h-12 rounded-full bg-[#eee5d9] px-7 text-xs font-medium uppercase tracking-[0.13em] text-[#25343b] hover:bg-white">Check availability <ArrowRight className="motion-arrow ml-2 size-4" /></Button><button onClick={() => scrollToId("gallery")} className="motion-button inline-flex h-12 items-center rounded-full border border-white/55 px-6 text-xs uppercase tracking-[0.13em] text-white hover:bg-white/15">Explore the house <ArrowRight className="motion-arrow ml-2 size-4"/></button></div>
+          </div>
+          <div className="hero-facts absolute bottom-20 left-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-medium uppercase tracking-[.13em] text-white/85 sm:left-12 lg:left-16"><span>2 bedrooms</span><span>Up to 5 guests</span><span>Private terrace</span></div>
         </div>
-        <button onClick={() => scrollToId("stay")} aria-label="Explore the house" className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/65"><ChevronDown className="size-7 animate-bounce" /></button>
+        <button onClick={() => scrollToId("stay")} aria-label="Explore the house" className="absolute bottom-6 right-8 text-white/70 transition-transform hover:translate-y-1"><ChevronDown className="size-6" /></button>
       </section>
 
       <section id="booking" className="relative z-20 mx-auto -mt-16 scroll-mt-24 max-w-6xl px-4 sm:px-6">
@@ -443,38 +445,37 @@ export default function HomeClient() {
 
       <section id="faq" className="scroll-mt-20 px-5 py-28 sm:px-8 lg:py-36"><div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[.75fr_1.25fr]"><Reveal direction="left"><div><p className="eyebrow">Good to know</p><h2 className="section-title mt-5">Before you arrive.</h2><div className="mt-8 space-y-4 text-[#666a63]"><p className="flex items-center gap-3"><Clock3 className="size-5 text-[#a48669]" /> Check-in 3 PM · check-out 10 AM</p><p className="flex items-center gap-3"><MapPin className="size-5 text-[#a48669]" /> F94, Bundoran, County Donegal</p><p className="flex items-center gap-3"><Users className="size-5 text-[#a48669]" /> 2 bedrooms · up to 5 guests</p></div></div></Reveal><Reveal direction="right" delay={100}><Accordion type="single" collapsible className="border-t border-[#cfc6ba]">{faqs.map(([question, answer], index) => <AccordionItem key={question} value={`item-${index}`} className="faq-item border-[#cfc6ba]" style={{ "--item-index": index } as CSSProperties}><AccordionTrigger className="py-6 font-display text-xl font-normal hover:no-underline">{question}</AccordionTrigger><AccordionContent className="pb-6 pr-8 text-base leading-7 text-[#666a63]">{answer}</AccordionContent></AccordionItem>)}</Accordion></Reveal></div></section>
 
-      <section id="contact" className="scroll-mt-20 bg-[#fbfaf7] px-5 py-28 sm:px-8 lg:py-36">
+      <section id="contact" className="scroll-mt-20 bg-[#e8e5df] px-5 py-16 sm:px-8 lg:py-20">
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="font-display text-[clamp(4rem,7vw,6rem)] font-normal leading-none text-[#2b4153]">Contact</h2>
-              <p className="mt-5 text-lg text-[#8c6b4d]">We&apos;d love to hear from you</p>
+              <h2 className="font-display text-[clamp(2.9rem,5vw,4.2rem)] font-normal leading-none text-[#2b4153]">Get in touch</h2>
+              <p className="mt-2 text-sm text-[#75685d]">Questions about your stay? We’d love to hear from you</p>
             </div>
           </Reveal>
 
-          <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_1.05fr]">
+          <div className="mt-9 grid gap-6 lg:grid-cols-[1fr_1.05fr]">
             <Reveal direction="left">
-              <form onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const name = String(data.get("name") || ""); const email = String(data.get("email") || ""); const subject = String(data.get("subject") || "Enquiry from The Hideaway website"); const message = String(data.get("message") || ""); window.location.href = `mailto:hello@thehideaway.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`; }} className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-7 sm:p-9">
-                <h3 className="font-display text-3xl font-normal text-[#2b4153]">Send a Message</h3>
-                <div className="mt-8 grid gap-6 sm:grid-cols-2">
+              <form onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const name = String(data.get("name") || ""); const email = String(data.get("email") || ""); const subject = String(data.get("subject") || "Enquiry from The Hideaway website"); const message = String(data.get("message") || ""); window.location.href = `mailto:hello@thehideaway.ie?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`; }} className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-5 shadow-sm sm:p-7">
+                <h3 className="font-display text-2xl font-normal text-[#2b4153]">Send a message</h3>
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
                   <div><Label htmlFor="contact-name" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Name *</Label><Input id="contact-name" name="name" required className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="Your name" /></div>
                   <div><Label htmlFor="contact-email" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Email *</Label><Input id="contact-email" name="email" type="email" required className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="you@email.com" /></div>
                 </div>
-                <div className="mt-6"><Label htmlFor="contact-subject" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Subject</Label><Input id="contact-subject" name="subject" className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="What&apos;s this about?" /></div>
-                <div className="mt-6"><Label htmlFor="contact-message" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Message *</Label><Textarea id="contact-message" name="message" required className="mt-2.5 min-h-36 rounded-2xl border-[#e2ddd6] bg-[#fbfaf7] p-4" placeholder="Tell us how we can help..." /></div>
+                <div className="mt-4"><Label htmlFor="contact-subject" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Subject</Label><Input id="contact-subject" name="subject" className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="What&apos;s this about?" /></div>
+                <div className="mt-4"><Label htmlFor="contact-message" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Message *</Label><Textarea id="contact-message" name="message" required className="mt-2.5 min-h-24 rounded-xl border-[#e2ddd6] bg-[#fbfaf7] p-4" placeholder="Tell us how we can help..." /></div>
                 <Button type="submit" className="mt-5 h-11 w-full rounded-full bg-[#294154] text-sm uppercase tracking-[0.12em] text-white hover:bg-[#203545]">Send Message <Send className="ml-2 size-4" /></Button>
               </form>
             </Reveal>
 
             <Reveal direction="right" delay={100}>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><MapPin className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Address</p><p className="mt-1 leading-6 text-[#2b4153]">The Hideaway, Bundoran, Co. Donegal, Ireland</p></div>
-                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Mail className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Email</p><a href="mailto:hello@thehideaway.ie" className="mt-1 block text-[#2b4153] hover:underline">hello@thehideaway.ie</a></div>
-                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Phone className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Phone</p><a href="tel:+353719841234" className="mt-1 block text-[#2b4153] hover:underline">+353 71 984 1234</a></div>
-                <div className="rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0] p-6"><Clock3 className="size-5 text-[#657266]" /><p className="mt-4 text-xs uppercase tracking-[0.08em] text-[#657266]">Response time</p><p className="mt-1 text-[#2b4153]">Within 24 hours</p></div>
-              </div>
-              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="facebook-contact mt-5 flex items-center gap-4 rounded-[1.5rem] bg-[#24323b] px-6 py-5 text-white"><Facebook className="size-6"/><span className="flex-1"><strong className="block font-display text-xl font-normal">Find us on Facebook</strong><small className="text-white/65">Photos, news and updates from The Hideaway</small></span><ArrowRight className="size-5"/></a><div className="mt-8 overflow-hidden rounded-[2rem] border border-[#e3ddd4] bg-[#f6f4f0]">
-                <iframe title="Map of Bundoran, County Donegal" src="https://www.google.com/maps?q=Bundoran%2C%20Co.%20Donegal%2C%20Ireland&output=embed" className="h-[300px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-4"><MapPin className="size-5 text-[#657266]" /><p className="mt-2 text-[11px] uppercase tracking-[0.08em] text-[#657266]">Address</p><p className="mt-1 leading-6 text-[#2b4153]">The Hideaway, Bundoran, Co. Donegal, Ireland</p></div>
+                <div className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-4"><Mail className="size-5 text-[#657266]" /><p className="mt-2 text-[11px] uppercase tracking-[0.08em] text-[#657266]">Email</p><a href="mailto:hello@thehideaway.ie" className="mt-1 block text-[#2b4153] hover:underline">hello@thehideaway.ie</a></div>
+                <div className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-4"><Phone className="size-5 text-[#657266]" /><p className="mt-2 text-[11px] uppercase tracking-[0.08em] text-[#657266]">Phone</p><a href="tel:+353719841234" className="mt-1 block text-[#2b4153] hover:underline">+353 71 984 1234</a></div>
+                <div className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-4"><Clock3 className="size-5 text-[#657266]" /><p className="mt-2 text-[11px] uppercase tracking-[0.08em] text-[#657266]">Response time</p><p className="mt-1 text-[#2b4153]">Within 24 hours</p></div>
+              </div><div className="mt-3 overflow-hidden rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3]">
+                <iframe title="Map of Bundoran, County Donegal" src="https://www.google.com/maps?q=Bundoran%2C%20Co.%20Donegal%2C%20Ireland&output=embed" className="h-[200px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
               </div>
             </Reveal>
           </div>
