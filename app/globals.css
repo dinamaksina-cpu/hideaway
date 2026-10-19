@@ -1,29 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 
 :root {
-  --background: #f7f3ed;
-  --foreground: #24323b;
-  --card: #fbf8f3;
-  --card-foreground: #24323b;
-  --popover: #fbf8f3;
-  --popover-foreground: #24323b;
-  --primary: #24323b;
+  --background: #f5efe6;
+  --foreground: #243747;
+  --card: #fbf8f2;
+  --card-foreground: #243747;
+  --popover: #fbf8f2;
+  --popover-foreground: #243747;
+  --primary: #22384a;
   --primary-foreground: #ffffff;
-  --secondary: #e8e1d7;
+  --secondary: #e8dfd2;
   --secondary-foreground: #24323b;
-  --muted: #ece6dd;
-  --muted-foreground: #6e716a;
-  --accent: #d6c7b7;
-  --accent-foreground: #24323b;
+  --muted: #efe8dd;
+  --muted-foreground: #6c7680;
+  --accent: #d6c0a0;
+  --accent-foreground: #22384a;
   --destructive: #a53b32;
   --border: #d8d0c5;
   --input: #d8d0c5;
-  --ring: #a48669;
+  --ring: #c2a06d;
   --radius: 0.9rem;
-  --font-sans: "Inter", Arial, sans-serif;
+  --font-sans: "Manrope", Arial, sans-serif;
 }
 
 @theme inline {
@@ -54,10 +54,10 @@
 
 * { border-color: var(--border); }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--background); color: var(--foreground); font-family: "Inter", Arial, sans-serif; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: "Manrope", Arial, sans-serif; }
 button, a { -webkit-tap-highlight-color: transparent; }
 .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
-.eyebrow { font-size: .75rem; line-height: 1rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #8c6b4d; }
+.eyebrow { font-size: .75rem; line-height: 1rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #b5915f; }
 .section-title { max-width: 42rem; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(3.2rem, 6vw, 5.6rem); font-weight: 400; line-height: .95; letter-spacing: -.025em; }
 
 .page-intro {
@@ -348,3 +348,51 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 .coastal-hero .motion-button:hover {transform:translateY(-2px)}
 @media(max-width:767px){.hideaway-walker{left:26%;top:61%;width:20px;height:44px}.coastal-reason:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.hideaway-walker,.hideaway-step-left,.hideaway-step-right,.hideaway-logo-intro-caption{animation:none!important}.hideaway-walker{display:none!important}.coastal-reason:hover,.coastal-hero .motion-button:hover{transform:none!important}}
+
+
+/* Bundoran hero refresh — Oct 2026 */
+.bundoran-hero {
+  background: #152738;
+}
+.bundoran-hero-media {
+  animation: bundoran-hero-zoom 18s ease-in-out infinite alternate;
+  filter: blur(2px) saturate(.95) brightness(.58);
+  transform: scale(1.06);
+  transform-origin: center center;
+}
+.bundoran-hero-overlay {
+  background:
+    linear-gradient(180deg, rgba(7, 20, 31, .30) 0%, rgba(7, 20, 31, .58) 100%),
+    linear-gradient(90deg, rgba(24, 47, 66, .74) 0%, rgba(10, 28, 44, .82) 48%, rgba(30, 39, 52, .50) 100%);
+}
+.bundoran-hero-kicker {
+  color: #c7a367;
+  letter-spacing: .34em;
+}
+.bundoran-hero-title {
+  text-shadow: 0 6px 24px rgba(0,0,0,.20);
+}
+.bundoran-hero-text {
+  text-shadow: 0 2px 12px rgba(0,0,0,.18);
+}
+.bundoran-hero-button {
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+.bundoran-hero-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(0,0,0,.18);
+}
+.bundoran-hero-button-secondary:hover {
+  background: rgba(255,255,255,.08);
+}
+@keyframes bundoran-hero-zoom {
+  from { transform: scale(1.06); }
+  to { transform: scale(1.12); }
+}
+@media (max-width: 640px) {
+  .bundoran-hero-media { filter: blur(1.3px) saturate(.95) brightness(.55); }
+  .bundoran-hero-kicker { letter-spacing: .20em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bundoran-hero-media { animation: none; transform: scale(1.08); }
+}

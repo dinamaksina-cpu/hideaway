@@ -349,7 +349,7 @@ export default function HomeClient() {
         </div>
       </div>
       <div ref={progressRef} aria-hidden="true" className="scroll-progress" />
-      <header className={`fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#28333d]/88 text-white backdrop-blur-md transition-all duration-500 ${headerCompact ? "shadow-[0_10px_30px_rgba(20,28,34,.18)]" : ""}`}>
+      <header className={`fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[#1b2d3d]/84 text-white backdrop-blur-md transition-all duration-500 ${headerCompact ? "shadow-[0_10px_30px_rgba(20,28,34,.18)]" : ""}`}>
         <div className={`mx-auto flex max-w-[1440px] items-center justify-between px-5 transition-all duration-500 sm:px-8 lg:px-5 ${headerCompact ? "h-16" : "h-[74px]"}`}>
           <button onClick={() => scrollToId("top")} aria-label="Go to top" className="transition-opacity hover:opacity-85">
             <Logo light className={`w-[74px] transition-all duration-500 ${headerCompact ? "h-12" : "h-14"}`} />
@@ -368,48 +368,39 @@ export default function HomeClient() {
         </div>
       </header>
 
-      <section id="top" className="coastal-hero relative isolate overflow-hidden bg-[#fbfaf7] pt-[74px]">
-        <div className="coastal-hero-grid mx-auto grid max-w-[1560px] items-center lg:grid-cols-[58%_42%]">
-          <div className="coastal-art relative min-h-[325px] sm:min-h-[450px] lg:min-h-[555px]" aria-label="Watercolour illustration inspired by the rental entrance and Donegal coast">
-            <img src="/images/hideaway-watercolor-hd.webp" alt="Watercolour illustration of The Hideaway entrance and the Donegal coast" className="coastal-paint absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
-            <div className="coastal-sky-glow" aria-hidden="true" />
-            {/* A separate lightweight character briefly walks toward the entrance.
-                The watercolor background itself remains unchanged. */}
-            <div className="hideaway-walker" aria-hidden="true">
-              <svg className="hideaway-walker-figure" viewBox="0 0 36 75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="18" cy="71" rx="12" ry="2.4" fill="#506055" opacity=".22" />
-                <circle cx="18" cy="11" r="7" fill="#e9c6a4" />
-                <path d="M10 9 Q17 0 25 9 L25 14 Q18 11 11 15 Z" fill="#645244" />
-                <path d="M14 19 Q18 16 22 19 L27 42 L9 42 Z" fill="#eae5da" stroke="#6b776b" strokeWidth="1.4" />
-                <path d="M12 24 L7 40 M24 24 L29 39" stroke="#d7b48f" strokeWidth="3" strokeLinecap="round" />
-                <path className="hideaway-step-left" d="M15 42 L13 60 L11 70" stroke="#464f50" strokeWidth="3.3" strokeLinecap="round" />
-                <path className="hideaway-step-right" d="M21 42 L23 59 L25 70" stroke="#464f50" strokeWidth="3.3" strokeLinecap="round" />
-              </svg>
-            </div>
-            <div className="hideaway-gulls" aria-hidden="true">
-              {[0, 1, 2].map((bird) => (
-                <svg key={bird} className={`hideaway-gull hideaway-gull-${bird + 1}`} viewBox="0 0 64 36" fill="none">
-                  <g className="hideaway-gull-wings" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M32 22 Q20 7 2 14 Q19 13 32 22" />
-                    <path d="M32 22 Q46 7 62 14 Q46 13 32 22" />
-                  </g>
-                </svg>
-              ))}
-            </div>
-          </div>
-          <div className="coastal-content relative z-10 px-6 pb-10 pt-3 sm:px-10 lg:-ml-8 lg:py-12 lg:pr-8 xl:pr-12">
-            <p className="coastal-entrance text-[10px] font-medium uppercase tracking-[.20em] text-[#66727a] sm:text-xs">Bundoran · County Donegal · Ireland</p>
-            <div className="coastal-rule mt-4 h-px w-11 bg-[#c0b19e]" />
-            <h1 className="coastal-entrance coastal-heading mt-5 font-display text-[clamp(3.5rem,5.1vw,6rem)] font-light leading-[1] tracking-[-.045em] text-[#213440]">The Hideaway</h1>
-            <p className="coastal-entrance mt-5 max-w-xl text-base leading-[1.85] text-[#57666f] sm:text-lg">Your private escape along the Wild Atlantic Way. Slow mornings, fresh Atlantic air and a little space to unwind.</p>
-            <div className="coastal-entrance mt-7 flex flex-wrap gap-3">
-              <button onClick={() => scrollToId('stay')} className="motion-button inline-flex min-h-12 items-center gap-3 rounded-full border border-[#8996a0] px-6 text-xs font-medium uppercase tracking-[.11em] text-[#233640] hover:bg-white">Explore the house <ChevronDown className="size-4" /></button>
-            </div>
-            <div className="coastal-entrance mt-10 grid grid-cols-2 gap-4 border-t border-[#e3dfd7] pt-5 text-[#2a414d] sm:grid-cols-4 lg:gap-2">
-              <div className="coastal-fact"><Users className="size-5"/><span>Sleeps<br/>up to 5</span></div>
-              <div className="coastal-fact"><BedDouble className="size-5"/><span>2<br/>bedrooms</span></div>
-              <div className="coastal-fact"><House className="size-5"/><span>Private<br/>patio</span></div>
-              <div className="coastal-fact"><Mountain className="size-5"/><span>Close to<br/>beach & town</span></div>
+      <section id="top" className="bundoran-hero relative isolate overflow-hidden pt-[74px]">
+        <img
+          src="/images/bundoran-hero-reference.jpg"
+          alt="Blue-toned coastal view of Bundoran behind The Hideaway hero section"
+          className="bundoran-hero-media absolute inset-0 h-full w-full object-cover object-center"
+          fetchPriority="high"
+        />
+        <div className="bundoran-hero-overlay absolute inset-0" aria-hidden="true" />
+
+        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-74px)] max-w-7xl items-center justify-center px-5 pb-20 pt-16 text-center sm:px-8 sm:pb-24 lg:pt-20">
+          <div className="w-full max-w-5xl">
+            <p className="bundoran-hero-kicker text-[10px] font-medium uppercase sm:text-xs">Bundoran · Wild Atlantic Way</p>
+            <h1 className="bundoran-hero-title mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
+              <span className="text-[#f4efe9]">The</span>{" "}
+              <span className="italic text-[#c9a265]">Hideaway</span>
+            </h1>
+            <p className="bundoran-hero-text mx-auto mt-7 max-w-3xl text-base leading-[1.8] text-white/88 sm:text-xl">
+              A modern, private two-bedroom chalet by the Atlantic coast. Quiet
+              mornings, salt air and the surf on your doorstep.
+            </p>
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <button
+                onClick={() => setBookingOpen(true)}
+                className="bundoran-hero-button inline-flex min-h-[54px] items-center justify-center rounded-[3px] bg-[#c6a061] px-10 text-sm font-semibold uppercase tracking-[0.16em] text-[#132638]"
+              >
+                Book your stay
+              </button>
+              <button
+                onClick={() => scrollToId('gallery')}
+                className="bundoran-hero-button bundoran-hero-button-secondary inline-flex min-h-[54px] items-center justify-center rounded-[3px] border border-white/75 px-10 text-sm font-semibold uppercase tracking-[0.16em] text-white"
+              >
+                View gallery
+              </button>
             </div>
           </div>
         </div>
