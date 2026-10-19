@@ -356,14 +356,14 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 }
 .bundoran-hero-media {
   animation: bundoran-hero-zoom 18s ease-in-out infinite alternate;
-  filter: blur(2px) saturate(.95) brightness(.58);
+  filter: saturate(1.04) brightness(1.04);
   transform: scale(1.06);
   transform-origin: center center;
 }
 .bundoran-hero-overlay {
   background:
-    linear-gradient(180deg, rgba(7, 20, 31, .30) 0%, rgba(7, 20, 31, .58) 100%),
-    linear-gradient(90deg, rgba(24, 47, 66, .74) 0%, rgba(10, 28, 44, .82) 48%, rgba(30, 39, 52, .50) 100%);
+    linear-gradient(180deg, rgba(9, 29, 47, .19) 0%, rgba(9, 29, 47, .34) 100%),
+    linear-gradient(90deg, rgba(24, 47, 66, .25) 0%, rgba(10, 28, 44, .35) 48%, rgba(30, 39, 52, .18) 100%);
 }
 .bundoran-hero-kicker {
   color: #c7a367;
@@ -390,7 +390,7 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   to { transform: scale(1.12); }
 }
 @media (max-width: 640px) {
-  .bundoran-hero-media { filter: blur(1.3px) saturate(.95) brightness(.55); }
+  .bundoran-hero-media { filter: saturate(1.04) brightness(1.04); }
   .bundoran-hero-kicker { letter-spacing: .20em; }
 }
 @media (prefers-reduced-motion: reduce) {
