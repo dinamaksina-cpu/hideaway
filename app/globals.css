@@ -876,3 +876,7 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
     object-position: center !important;
   }
 }
+
+/* Sharper intro-only logo: retain original layout and animation. */
+.hideaway-logo-intro-mark { width: 184px; height: auto; max-width: 55vw; object-fit: contain; filter: none; image-rendering: auto; }
+@media (max-width: 640px) { .hideaway-logo-intro-mark { width: 178px; } }

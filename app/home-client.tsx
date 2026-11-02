@@ -457,7 +457,7 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
     <main className="overflow-x-hidden bg-[#f7f3ed] text-[#24323b]">
       <div aria-hidden="true" className="page-intro hideaway-logo-intro">
         <div className="hideaway-logo-intro-inner">
-          <img src="/images/logo.png" alt="" className="hideaway-logo-intro-mark" />
+          <img src="/images/logo-intro-sharp.png" alt="" className="hideaway-logo-intro-mark" width={1860} height={1654} />
           <span className="hideaway-logo-intro-line" />
           <span className="hideaway-logo-intro-caption">A little place to get away from it all</span>
         </div>
