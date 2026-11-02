@@ -635,3 +635,17 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 @keyframes hideaway-photo-in{from{opacity:.35;transform:translateY(15px) scale(.97)}to{opacity:1;transform:none}}
 @media(max-width:800px){.hideaway-editorial-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:145px;gap:9px}.hideaway-editorial-tile,.hideaway-editorial-tile.tile-0,.hideaway-editorial-tile.tile-3,.hideaway-editorial-tile.tile-4,.hideaway-editorial-tile.tile-7,.hideaway-editorial-tile.tile-8,.hideaway-editorial-tile.tile-9{grid-column:span 1;grid-row:span 1}.hideaway-editorial-tile.tile-0,.hideaway-editorial-tile.tile-7{grid-column:span 2;grid-row:span 2}.hideaway-collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hideaway-lightbox{grid-template-columns:45px minmax(0,1fr) 45px;grid-template-rows:65px minmax(0,1fr) 55px}.hideaway-lightbox-head{padding:0 62px 0 12px;font-size:9px}.hideaway-lightbox-foot{padding:0 12px;font-size:10px}.hideaway-lightbox-foot span:last-child{display:none}.hideaway-lightbox-close{right:12px;top:12px}}
 @media(prefers-reduced-motion:reduce){.hideaway-lightbox,.hideaway-lightbox-photo{animation:none}.hideaway-editorial-tile img,.hideaway-collection-tile img{transition:none}}
+
+/* Refined image-to-slider transition: no gallery numbers or counts. */
+.hideaway-editorial-caption { justify-content:flex-start; font-family:"Cormorant Garamond", Georgia, serif; font-size:clamp(18px,2vw,24px); font-weight:400; }
+.hideaway-collection-tile > span { display:none; }
+.hideaway-lightbox-head { justify-content:flex-start; }
+.hideaway-lightbox-foot { justify-content:center; }
+.hideaway-lightbox-stage { padding:12px; }
+.hideaway-lightbox-photo { border-radius:2px; }
+@keyframes hideaway-flip-slide-in { from { opacity:.5; transform:scale(.98) } to { opacity:1; transform:scale(1) } }
+::view-transition-old(hideaway-gallery-photo),::view-transition-new(hideaway-gallery-photo){
+  animation-duration:.75s;animation-timing-function:cubic-bezier(.22,1,.36,1);object-fit:contain;
+}
+::view-transition-group(hideaway-gallery-photo){animation-duration:.75s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+@media(prefers-reduced-motion:reduce){::view-transition-group(hideaway-gallery-photo),::view-transition-old(hideaway-gallery-photo),::view-transition-new(hideaway-gallery-photo){animation-duration:0s!important}}

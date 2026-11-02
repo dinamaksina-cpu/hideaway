@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import type { CSSProperties, ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
 import { differenceInCalendarDays, format, eachDayOfInterval, subDays } from "date-fns";
@@ -324,22 +325,55 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
   const galleryPhotos = useMemo(() => {
     const existing = new Map(gallery.map((item) => [item.src, item]));
     const newPhotos = photoFiles.map((src) => existing.get(src) ?? { src, alt: "The Hideaway holiday home photograph", label: "The Hideaway" });
-    const included = new Set(newPhotos.map((item) => item.src));
-    return [...newPhotos, ...gallery.filter((item) => !included.has(item.src))];
+    // New uploads are the gallery. Do not append the 26 legacy images again.
+    return newPhotos.length ? newPhotos : gallery;
   }, [photoFiles]);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
   const touchStart = useRef<number | null>(null);
+  const selectedTileRef = useRef<HTMLImageElement | null>(null);
+  const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const changePhoto = (direction: number) => setActivePhoto((current) => current === null ? null : (current + direction + galleryPhotos.length) % galleryPhotos.length);
-  const openPhoto = (src: string) => {
+  // Native View Transitions give the image a genuine grid-to-slider FLIP-style move.
+  // Browsers without this API retain the CSS lightbox transition.
+  const runPhotoTransition = (update: () => void, source?: HTMLImageElement | null) => {
+    const doc = document as Document & { startViewTransition?: (update: () => void) => { finished: Promise<void> } };
+    if (!doc.startViewTransition || prefersReducedMotion()) { update(); return; }
+    if (source) source.style.viewTransitionName = "hideaway-gallery-photo";
+    try {
+      const transition = doc.startViewTransition(() => { flushSync(update); });
+      void transition.finished.finally(() => { if (source) source.style.viewTransitionName = ""; });
+    } catch {
+      if (source) source.style.viewTransitionName = "";
+      update();
+    }
+  };
+  const openPhoto = (src: string, image?: HTMLImageElement | null) => {
     const index = galleryPhotos.findIndex((item) => item.src === src);
-    if (index !== -1) { setAllPhotosOpen(false); setActivePhoto(index); }
+    if (index === -1) return;
+    selectedTileRef.current = image || null;
+    runPhotoTransition(() => { setAllPhotosOpen(false); setActivePhoto(index); }, image);
+  };
+  const closePhoto = () => {
+    const target = selectedTileRef.current?.isConnected ? selectedTileRef.current : null;
+    const large = document.querySelector<HTMLImageElement>(".hideaway-lightbox-photo");
+    // Closing onto the same tile mirrors the opening transition.
+    if (target && large && document.startViewTransition && !prefersReducedMotion()) {
+      // The lightbox image has the transition name; the tile gets it upon state update.
+      runPhotoTransition(() => {
+        target.style.viewTransitionName = "hideaway-gallery-photo";
+        setActivePhoto(null);
+      });
+      window.setTimeout(() => { target.style.viewTransitionName = ""; }, 850);
+    } else {
+      setActivePhoto(null);
+    }
   };
   useEffect(() => {
     if (activePhoto === null) return;
     const oldOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActivePhoto(null);
+      if (event.key === "Escape") closePhoto();
       if (event.key === "ArrowRight") changePhoto(1);
       if (event.key === "ArrowLeft") changePhoto(-1);
     };
@@ -541,20 +575,20 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
         <div className="mx-auto max-w-7xl">
           <Reveal><div className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="eyebrow">Inside and out</p><h2 className="section-title mt-5">See the real Hideaway.</h2></div><p className="max-w-sm leading-7 text-[#696c65]">Explore every corner, from calm interiors to the private terrace.</p></div></Reveal>
           <div className="hideaway-editorial-grid">
-            {galleryPhotos.slice(0, 10).map((image, index) => <button key={image.src} type="button" onClick={() => openPhoto(image.src)} className={`hideaway-editorial-tile tile-${index} group`} aria-label={`Open photo ${index + 1} of ${galleryPhotos.length}`}>
+            {galleryPhotos.slice(0, 10).map((image, index) => <button key={image.src} type="button" onClick={(event) => openPhoto(image.src, event.currentTarget.querySelector("img"))} className={`hideaway-editorial-tile tile-${index} group`} aria-label={`Open photo: ${image.label}`}>
               <img src={image.src} alt={image.alt} loading="lazy" decoding="async" /><span className="hideaway-editorial-scrim" />
-              <span className="hideaway-editorial-caption">{image.label}<span>{String(index + 1).padStart(2, "0")}</span></span><span className="hideaway-editorial-zoom" aria-hidden="true">↗</span>
+              <span className="hideaway-editorial-caption">{image.label}</span><span className="hideaway-editorial-zoom" aria-hidden="true">↗</span>
             </button>)}
           </div>
-          <Reveal delay={150}><div className="mt-10 text-center"><Button onClick={() => setAllPhotosOpen(true)} variant="outline" className="motion-button h-12 rounded-full border-[#24323b] bg-transparent px-7 uppercase tracking-[0.12em] hover:bg-[#24323b] hover:text-white">View all {galleryPhotos.length} photos <ArrowRight className="ml-3 size-4" /></Button></div></Reveal>
+          <Reveal delay={150}><div className="mt-10 text-center"><Button onClick={() => setAllPhotosOpen(true)} variant="outline" className="motion-button h-12 rounded-full border-[#24323b] bg-transparent px-7 uppercase tracking-[0.12em] hover:bg-[#24323b] hover:text-white">Explore the gallery <ArrowRight className="ml-3 size-4" /></Button></div></Reveal>
         </div>
       </section>
-      <Dialog open={allPhotosOpen} onOpenChange={setAllPhotosOpen}><DialogContent className="max-h-[92vh] max-w-[calc(100%-1.5rem)] overflow-y-auto border-[#cfc6ba] bg-[#f7f3ed] p-5 sm:max-w-6xl sm:p-7"><DialogHeader><p className="eyebrow">Inside and out</p><DialogTitle className="font-display text-4xl font-normal text-[#24323b]">The full collection</DialogTitle><DialogDescription className="text-[#686b65]">{galleryPhotos.length} photographs · Select an image to explore.</DialogDescription></DialogHeader><div className="hideaway-collection-grid">{galleryPhotos.map((image, index) => <button key={image.src} type="button" onClick={() => openPhoto(image.src)} className="hideaway-collection-tile" aria-label={`View photograph ${index + 1}`}><img src={image.src} alt={image.alt} loading="lazy" decoding="async" /><span>{String(index + 1).padStart(2, "0")}</span></button>)}</div></DialogContent></Dialog>
+      <Dialog open={allPhotosOpen} onOpenChange={setAllPhotosOpen}><DialogContent className="max-h-[92vh] max-w-[calc(100%-1.5rem)] overflow-y-auto border-[#cfc6ba] bg-[#f7f3ed] p-5 sm:max-w-6xl sm:p-7"><DialogHeader><p className="eyebrow">Inside and out</p><DialogTitle className="font-display text-4xl font-normal text-[#24323b]">The full collection</DialogTitle><DialogDescription className="text-[#686b65]">Select a photograph to explore.</DialogDescription></DialogHeader><div className="hideaway-collection-grid">{galleryPhotos.map((image, index) => <button key={image.src} type="button" onClick={(event) => openPhoto(image.src, event.currentTarget.querySelector("img"))} className="hideaway-collection-tile" aria-label={`View photograph: ${image.label}`}><img src={image.src} alt={image.alt} loading="lazy" decoding="async" /></button>)}</div></DialogContent></Dialog>
       {activePhoto !== null && galleryPhotos[activePhoto] && <div className="hideaway-lightbox" role="dialog" aria-modal="true" aria-label="The Hideaway photo slider">
-        <div className="hideaway-lightbox-head"><span>THE HIDEAWAY · BUNDORAN</span><span>{String(activePhoto + 1).padStart(2, "0")} / {String(galleryPhotos.length).padStart(2, "0")}</span></div>
-        <button className="hideaway-lightbox-close" type="button" onClick={() => setActivePhoto(null)} aria-label="Close viewer"><X className="size-6" /></button>
+        <div className="hideaway-lightbox-head"><span>THE HIDEAWAY · BUNDORAN</span></div>
+        <button className="hideaway-lightbox-close" type="button" onClick={closePhoto} aria-label="Close viewer"><X className="size-6" /></button>
         <button className="hideaway-lightbox-prev" type="button" onClick={() => changePhoto(-1)} aria-label="Previous photo"><ChevronLeft className="size-7" /></button>
-        <div className="hideaway-lightbox-stage" onTouchStart={(e) => { touchStart.current = e.touches[0]?.clientX ?? null; }} onTouchEnd={(e) => { if (touchStart.current === null) return; const delta = e.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 45) changePhoto(delta < 0 ? 1 : -1); touchStart.current = null; }}><img key={galleryPhotos[activePhoto].src} src={galleryPhotos[activePhoto].src} alt={galleryPhotos[activePhoto].alt} className="hideaway-lightbox-photo" /></div>
+        <div className="hideaway-lightbox-stage" onTouchStart={(e) => { touchStart.current = e.touches[0]?.clientX ?? null; }} onTouchEnd={(e) => { if (touchStart.current === null) return; const delta = e.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 45) changePhoto(delta < 0 ? 1 : -1); touchStart.current = null; }}><img key={galleryPhotos[activePhoto].src} src={galleryPhotos[activePhoto].src} alt={galleryPhotos[activePhoto].alt} className="hideaway-lightbox-photo" style={{ viewTransitionName: "hideaway-gallery-photo" }} /></div>
         <button className="hideaway-lightbox-next" type="button" onClick={() => changePhoto(1)} aria-label="Next photo"><ChevronRight className="size-7" /></button>
         <div className="hideaway-lightbox-foot"><span>{galleryPhotos[activePhoto].label}</span><span>Use arrow keys to browse · Esc to close</span></div>
       </div>}
