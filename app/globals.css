@@ -730,3 +730,22 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 .smear-controls button:hover{background:#ffffff24}
 @media(max-width:600px){.smear-host,.smear-stage{perspective:650px}.smear-edge{width:10%}.smear-controls button{height:42px;width:42px}}
 @media(prefers-reduced-motion:reduce){.smear-card,.smear-controls button{transition:none!important}}
+
+
+/* Smooth Scroll Slider: warm cream backdrop, clean image rail, no labels. */
+.hideaway-smooth-gallery { background: #FBF8F3; overflow: hidden; }
+.hideaway-smooth-gallery .section-title { color: #24323b; }
+.hideaway-smooth-gallery .eyebrow { color: #b5915f; }
+.hideaway-smooth-host { position: relative; height: clamp(340px,46vw,600px); width: 100%; overflow: hidden; cursor: grab; user-select: none; touch-action: pan-y; isolation: isolate; outline: none; }
+.hideaway-smooth-host:active { cursor: grabbing; }
+.hideaway-smooth-host:focus-visible { outline: 2px solid #c9a265; outline-offset: -2px; }
+.hideaway-smooth-card { position: absolute; left: 0; top: 50%; display: block; padding: 0; border: 0; overflow: hidden; background: #e8e1d7; transform-origin: center; will-change: transform, opacity; border-radius: 7px; box-shadow: 0 18px 42px rgba(35,47,54,.13); cursor: zoom-in; }
+.hideaway-smooth-card img { display: block; height: 100%; width: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+.hideaway-smooth-edge { position: absolute; top: 0; bottom: 0; width: min(15vw, 180px); z-index: 8; pointer-events: none; }
+.hideaway-smooth-edge--left { left: 0; background: linear-gradient(90deg,#FBF8F3,transparent); }
+.hideaway-smooth-edge--right { right: 0; background: linear-gradient(270deg,#FBF8F3,transparent); }
+.hideaway-smooth-controls { display: flex; align-items: center; justify-content: center; gap: 14px; padding-top: 12px; }
+.hideaway-smooth-controls button { display: grid; place-items: center; height: 44px; width: 44px; border: 1px solid #c9b79e; border-radius: 50%; color: #24323b; background: transparent; transition: background .25s; }
+.hideaway-smooth-controls button:hover { background: #e8e1d7; }
+@media (max-width: 640px) { .hideaway-smooth-host { height: 360px; } .hideaway-smooth-edge { width: 9vw; } .hideaway-smooth-card { border-radius: 5px; } }
+@media (prefers-reduced-motion:reduce) { .hideaway-smooth-card { will-change: auto; } }

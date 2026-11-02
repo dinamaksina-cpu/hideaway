@@ -1,6 +1,6 @@
 "use client";
 
-import SmearCarousel from "./smear-carousel";
+import SmoothScrollSlider from "./smooth-scroll-slider";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
@@ -553,11 +553,11 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
 
       <section className="section-wash bg-[#24323b] px-5 py-24 text-white sm:px-8 lg:py-32"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><Reveal direction="left"><div><p className="eyebrow !text-[#c7ad91]">Everything you need</p><h2 className="mt-5 max-w-md font-display text-5xl font-light leading-[1.02] sm:text-6xl">Room to arrive, settle in and switch off.</h2></div></Reveal><div className="grid gap-px overflow-hidden rounded-3xl bg-white/12 sm:grid-cols-2">{amenities.map((item, index) => <Reveal key={item.title} delay={index * 65} className="h-full"><div className="amenity-card h-full bg-[#24323b] p-7 sm:p-8"><item.icon className="amenity-icon mb-5 size-6 text-[#c7ad91]" /><h3 className="font-display text-2xl font-normal">{item.title}</h3><p className="mt-2 leading-7 text-white/60">{item.copy}</p></div></Reveal>)}</div></div></div></section>
 
-      <section id="gallery" className="smear-gallery-section scroll-mt-20 py-24 lg:py-36">
+      <section id="gallery" className="hideaway-smooth-gallery scroll-mt-20 py-24 lg:py-36">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal><div className="mb-8 text-center"><p className="eyebrow">Inside and out</p><h2 className="section-title mx-auto mt-5">Gallery</h2></div></Reveal>
         </div>
-        <SmearCarousel photos={galleryPhotos} onOpen={openPhoto} />
+        <SmoothScrollSlider photos={galleryPhotos} onOpen={openPhoto} />
       </section>
       {activePhoto !== null && galleryPhotos[activePhoto] && (
         <div className="ruben-gallery-overlay" role="dialog" aria-modal="true" aria-label="Photo gallery">
