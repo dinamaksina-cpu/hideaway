@@ -3,14 +3,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
-import { differenceInCalendarDays, format } from "date-fns";
+import { differenceInCalendarDays, format, eachDayOfInterval, subDays } from "date-fns";
+import { bookingCalendar, blockedNights, nightlyRates } from "./booking-calendar-data";
 import {
   ArrowRight, Bath, BedDouble, Check, ChevronDown, Clock3, CookingPot, House,
   Mail, MapPin, Menu, Mountain, ParkingCircle, Phone, Send, ShieldCheck, Users, WashingMachine, Wifi,
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -160,6 +161,7 @@ function Reveal({
 
 function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const [dates, setDates] = useState<DateRange | undefined>();
+  const [calendarMonth, setCalendarMonth] = useState<Date>(new Date());
   const [guests, setGuests] = useState("2");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -168,6 +170,21 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [reference, setReference] = useState("");
+
+  // Booking.com rates and blocked nights are manually entered in booking-calendar-data.ts.
+  const blockedSet = useMemo(() => new Set(blockedNights), []);
+  const hasBlockedNight = useMemo(() => {
+    if (!dates?.from || !dates.to) return false;
+    return eachDayOfInterval({ start: dates.from, end: subDays(dates.to, 1) })
+      .some(day => blockedSet.has(format(day, "yyyy-MM-dd")));
+  }, [dates, blockedSet]);
+  const rateSummary = useMemo(() => {
+    if (!dates?.from || !dates.to || dates.to <= dates.from) return null;
+    const stayNights = eachDayOfInterval({ start: dates.from, end: subDays(dates.to, 1) });
+    const prices = stayNights.map(day => nightlyRates[format(day, "yyyy-MM-dd")]);
+    if (prices.some(price => price === undefined)) return null;
+    return prices.reduce((total, price) => total + (price ?? 0), 0);
+  }, [dates]);
 
   const nights = useMemo(() => {
     if (!dates?.from || !dates.to) return 0;
@@ -179,6 +196,10 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
     setError("");
     if (!dates?.from || !dates.to || !name.trim() || !email.trim()) {
       setError("Please choose your dates and complete your name and email.");
+      return;
+    }
+    if (hasBlockedNight) {
+      setError("These dates include a night marked unavailable. Please choose other dates.");
       return;
     }
     setSubmitting(true);
@@ -234,8 +255,36 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
               <div>
                 <Label className="mb-3 block text-xs uppercase tracking-[0.16em] text-[#646761]">Check-in — check-out</Label>
                 <div className="overflow-hidden rounded-2xl border border-[#d8d0c5] bg-[#fbf8f3] shadow-[0_10px_30px_rgba(36,50,59,0.04)]">
-                  <Calendar mode="range" selected={dates} onSelect={setDates} disabled={{ before: new Date() }} className="mx-auto p-4" />
+                  <Calendar
+                    mode="range"
+                    month={calendarMonth}
+                    onMonthChange={setCalendarMonth}
+                    selected={dates}
+                    onSelect={setDates}
+                    disabled={[{ before: new Date() }, ...blockedNights.map(date => new Date(`${date}T12:00:00`))]}
+                    className="mx-auto p-2 sm:p-4 [--cell-size:--spacing(10)]"
+                    components={{
+                      DayButton: ({ day, modifiers, ...props }) => {
+                        const key = format(day.date, "yyyy-MM-dd");
+                        const rate = nightlyRates[key];
+                        const blocked = blockedSet.has(key);
+                        return (
+                          <CalendarDayButton day={day} modifiers={modifiers} {...props} className="!h-12 !min-w-0 !w-full !gap-0.5 !px-0.5">
+                            <span className="text-[12px] leading-none">{format(day.date, "d")}</span>
+                            <span className="text-[9px] leading-none tabular-nums">
+                              {blocked ? "—" : rate !== undefined ? `€${rate}` : ""}
+                            </span>
+                          </CalendarDayButton>
+                        );
+                      },
+                    }}
+                  />
                 </div>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <button type="button" onClick={() => setCalendarMonth(new Date(2027, 3, 1))} className="rounded-full border border-[#c5a16b] bg-[#faf4e9] px-4 py-2 text-xs font-semibold text-[#24323b] hover:bg-[#f2e5ce]">View Apr–Oct 2027 prices</button>
+                  <button type="button" onClick={() => setCalendarMonth(new Date())} className="rounded-full border border-[#d8d0c5] px-4 py-2 text-xs text-[#24323b] hover:bg-[#eee6db]">Current month</button>
+                </div>
+                <p className="mt-3 text-xs leading-5 text-[#74746f]">€ = indicative nightly rate · — = unavailable · blank = not verified. {bookingCalendar.notice} All requests require confirmation.</p>
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                   <div className="rounded-xl border border-[#ddd4c8] bg-[#fbf8f3] p-3"><span className="block text-xs text-[#7a7c76]">Check-in</span><strong className="font-medium text-[#24323b]">{dates?.from ? format(dates.from, "d MMM yyyy") : "Choose date"}</strong></div>
                   <div className="rounded-xl border border-[#ddd4c8] bg-[#fbf8f3] p-3"><span className="block text-xs text-[#7a7c76]">Check-out</span><strong className="font-medium text-[#24323b]">{dates?.to ? format(dates.to, "d MMM yyyy") : "Choose date"}</strong></div>
@@ -252,10 +301,10 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
                 <div className="rounded-2xl bg-[#24323b] p-5 text-white">
                   <div className="flex justify-between text-sm text-white/70"><span>Stay</span><span>{nights ? `${nights} night${nights === 1 ? "" : "s"}` : "Choose dates"}</span></div>
                   <div className="mt-2 flex justify-between text-sm text-white/70"><span>Guests</span><span>{guests}</span></div>
-                  <div className="mt-4 border-t border-white/15 pt-4"><strong className="font-display text-2xl font-normal">Price confirmed with availability</strong><p className="mt-1 text-sm leading-6 text-white/60">Rates vary by date and length of stay. No payment is taken with this request.</p></div>
+                  <div className="mt-4 border-t border-white/15 pt-4"><strong className="font-display text-2xl font-normal">{rateSummary !== null ? `Indicative total: €${rateSummary.toFixed(2)}` : "Price confirmed with availability"}</strong><p className="mt-1 text-sm leading-6 text-white/60">{rateSummary !== null ? "Manually entered indicative nightly rates; final price and availability confirmed by the host. No payment taken." : "Exact rates for these nights have not been entered yet. The host will confirm the price and availability. No payment is taken."}</p></div>
                 </div>
                 {error && <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-                <Button type="submit" disabled={submitting} className="h-12 w-full rounded-full bg-[#a48669] text-sm uppercase tracking-[0.14em] text-white hover:bg-[#8d7056]">{submitting ? "Sending…" : "Send booking request"}</Button>
+                <Button type="submit" disabled={submitting || hasBlockedNight} className="h-12 w-full rounded-full bg-[#a48669] text-sm uppercase tracking-[0.14em] text-white hover:bg-[#8d7056]">{submitting ? "Sending…" : "Send booking request"}</Button>
                 <p className="flex items-center justify-center gap-2 text-center text-xs text-[#777971]"><ShieldCheck className="size-4" /> Secure request · no card details collected</p>
               </div>
             </div>
