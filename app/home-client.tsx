@@ -274,7 +274,6 @@ export default function HomeClient() {
   const [activeSection, setActiveSection] = useState("top");
   const progressRef = useRef<HTMLDivElement>(null);
   const cinematicHeroRef = useRef<HTMLElement>(null);
-  const heroTitleRef = useRef<HTMLHeadingElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
   const nav = [["Home", "top"], ["About", "stay"], ["Gallery", "gallery"], ["Booking", "booking"], ["Contact", "contact"]];
 
@@ -326,39 +325,6 @@ export default function HomeClient() {
       activeHero?.removeEventListener("pointermove", onPointerMove);
       window.cancelAnimationFrame(frame);
     };
-  }, []);
-
-  // Measure the intrinsic widths of both words at a known font size.
-  // Keep a generous 8% safe margin on BOTH sides, including italic overhang.
-  useEffect(() => {
-    const title = heroTitleRef.current;
-    if (!title) return;
-    const parent = title.parentElement;
-    if (!parent) return;
-    let frame = 0;
-    const fit = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const words = Array.from(title.querySelectorAll<HTMLElement>(".hideaway-title-word"));
-        if (words.length !== 2) return;
-        const available = Math.max(120, Math.min(parent.clientWidth, window.innerWidth) - 48);
-        const stacked = window.innerWidth < 700;
-        const base = 160;
-        title.style.fontSize = `${base}px`;
-        const widths = words.map(word => word.getBoundingClientRect().width);
-        // 15% overhang reserve covers the italic H/y and any font fallback.
-        const needed = (stacked ? Math.max(...widths) : widths[0] + widths[1] + base * 0.13) * 1.15;
-        const maximum = stacked ? 105 : 154;
-        const size = Math.min(maximum, base * available / needed);
-        title.style.fontSize = `${Math.max(25, Math.floor(size))}px`;
-      });
-    };
-    const observer = new ResizeObserver(fit);
-    observer.observe(parent);
-    window.addEventListener("resize", fit);
-    document.fonts.ready.then(fit).catch(() => {});
-    fit();
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener("resize", fit); };
   }, []);
 
   useEffect(() => {
@@ -438,7 +404,7 @@ export default function HomeClient() {
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-74px)] max-w-7xl items-center justify-center px-5 pb-20 pt-16 text-center sm:px-8 sm:pb-24 lg:pt-20">
           <div className="w-full max-w-5xl">
             <p className="bundoran-hero-kicker premium-hero-kicker text-[10px] font-medium uppercase sm:text-xs">Bundoran · Wild Atlantic Way</p>
-            <h1 ref={heroTitleRef} className="bundoran-hero-title premium-hero-heading mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
+            <h1 className="bundoran-hero-title premium-hero-heading mt-7 font-display font-normal">
               <span className="hideaway-title-word hideaway-title-the inline-block text-[#f4efe9]">The</span>{" "}
               <span className="hideaway-title-word hideaway-title-name inline-block italic text-[#c9a265]">Hideaway</span>
             </h1>

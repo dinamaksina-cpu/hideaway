@@ -545,3 +545,62 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
     letter-spacing: .14em;
   }
 }
+
+/* Final text-only hero title: NO width-measuring JavaScript, NO clipping masks.
+   Both words remain real accessible HTML text and will reflow naturally. */
+.premium-ocean-hero .bundoran-hero-title {
+  display: flex !important;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-inline: 18px;
+  margin-inline: auto;
+  gap: .10em;
+  font-size: clamp(52px, 7.7vw, 138px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.045em;
+  white-space: normal !important;
+  overflow: visible !important;
+}
+.premium-ocean-hero .hideaway-title-word {
+  display: inline-block;
+  max-width: 100%;
+  flex: 0 1 auto;
+  white-space: nowrap;
+  opacity: 1;
+  clip-path: none !important;
+  animation: hideaway-text-only-enter 1s cubic-bezier(.2,.7,.2,1) both !important;
+}
+.premium-ocean-hero .hideaway-title-the { animation-delay: .2s !important; }
+.premium-ocean-hero .hideaway-title-name { animation-delay: .45s !important; }
+@keyframes hideaway-text-only-enter {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 699px) {
+  .premium-ocean-hero .bundoran-hero-title {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 0 10px 10px;
+    font-size: 1rem !important;
+    line-height: 1.02 !important;
+  }
+  .premium-ocean-hero .hideaway-title-the {
+    font-size: clamp(70px, 23vw, 115px) !important;
+  }
+  .premium-ocean-hero .hideaway-title-name {
+    font-size: clamp(43px, 12.2vw, 78px) !important;
+    letter-spacing: -.06em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .premium-ocean-hero .hideaway-title-word {
+    animation: none !important; opacity: 1 !important; transform: none !important;
+  }
+}
