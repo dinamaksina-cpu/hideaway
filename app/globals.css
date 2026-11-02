@@ -801,3 +801,36 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 @media (max-width: 767px) {
   #location > div { gap: 30px !important; }
 }
+
+/* Discover Donegal refinement: cream canvas, restrained desktop video, full-bleed mobile. */
+#location,
+#location .location-video-frame { background-color: #e8e1d7 !important; }
+#location > div > .reveal-block:first-child {
+  width: min(100%, 1120px) !important;
+  max-width: 1120px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#location .location-video-frame {
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  border: 0 !important;
+  border-radius: 20px !important;
+  overflow: hidden;
+  box-shadow: none !important;
+}
+#location .location-video-media {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  background: #e8e1d7 !important;
+}
+@media (max-width: 767px) {
+  #location > div > .reveal-block:first-child {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+  }
+  #location .location-video-frame { border-radius: 0 !important; }
+}
