@@ -711,3 +711,22 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 ::view-transition-group(*) {animation-duration:.6s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
 @media(max-width:700px){.ruben-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:clamp(104px,29vw,185px);gap:9px}.ruben-gallery-tile,.ruben-gallery-tile-0,.ruben-gallery-tile-1,.ruben-gallery-tile-2,.ruben-gallery-tile-3,.ruben-gallery-tile-4,.ruben-gallery-tile-5,.ruben-gallery-tile-6,.ruben-gallery-tile-7,.ruben-gallery-tile-8{grid-column:auto;grid-row:span 2;margin-top:0}.ruben-gallery-tile-0,.ruben-gallery-tile-5{grid-column:span 2;grid-row:span 2}.ruben-gallery-overlay{grid-template-columns:38px minmax(0,1fr) 38px}.ruben-gallery-close{right:10px;top:12px}}
 @media(prefers-reduced-motion:reduce){.ruben-gallery-image{transition:none!important}.ruben-gallery-overlay{animation:none!important}::view-transition-group(*){animation-duration:0s!important}}
+
+/* Smear carousel: original 3D ring, responsive, no captions or counters */
+.smear-gallery-section{background:#0a0a0c;color:#f7f3ed;overflow:hidden}
+.smear-gallery-section .section-title{color:#f7f3ed}
+.smear-gallery-section .eyebrow{color:#c9a265}
+.smear-host{position:relative;width:100%;min-height:350px;overflow:hidden;outline:none;perspective:900px;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.smear-host:active{cursor:grabbing}
+.smear-host:focus-visible{outline:2px solid #c9a265;outline-offset:-4px}
+.smear-stage{position:relative;width:100%;transform-style:preserve-3d;perspective:900px}
+.smear-card{position:absolute;top:50%;left:50%;border:0;padding:0;overflow:hidden;background:#17222c;box-shadow:0 25px 55px rgba(0,0,0,.24);transform-style:preserve-3d;backface-visibility:hidden;transition:opacity .22s;cursor:pointer}
+.smear-card-image{object-fit:cover;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.smear-edge{position:absolute;top:0;bottom:0;width:min(21%,240px);z-index:60;pointer-events:none}
+.smear-edge-left{left:0;background:linear-gradient(90deg,#0a0a0c,transparent)}
+.smear-edge-right{right:0;background:linear-gradient(270deg,#0a0a0c,transparent)}
+.smear-controls{position:relative;z-index:65;display:flex;justify-content:center;gap:16px;padding:0 0 22px}
+.smear-controls button{height:44px;width:44px;border:1px solid #ffffff70;border-radius:50%;color:white;font-size:22px;transition:background .2s}
+.smear-controls button:hover{background:#ffffff24}
+@media(max-width:600px){.smear-host,.smear-stage{perspective:650px}.smear-edge{width:10%}.smear-controls button{height:42px;width:42px}}
+@media(prefers-reduced-motion:reduce){.smear-card,.smear-controls button{transition:none!important}}
