@@ -665,3 +665,21 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 .hideaway-refined-lightbox .hideaway-lightbox-photo{object-fit:contain;width:100%;height:100%;max-width:100%;max-height:100%;border-radius:0}
 @media(max-width:800px){.hideaway-refined-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:clamp(125px,34vw,215px);gap:8px}.hideaway-refined-tile,.hideaway-refined-tile-3,.hideaway-refined-tile-4,.hideaway-refined-tile-8,.hideaway-refined-tile-9{grid-column:span 1;grid-row:span 1}.hideaway-refined-tile-0,.hideaway-refined-tile-7{grid-column:span 2;grid-row:span 2}.hideaway-refined-lightbox .hideaway-lightbox-stage{padding:10px}}
 @media(prefers-reduced-motion:reduce){.hideaway-refined-image{transition:none!important}.hideaway-refined-tile:hover .hideaway-refined-image{transform:none}}
+
+/* Gallery project grid: six-image layout based on supplied workik gallery example. */
+.hideaway-project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hideaway-project{position:relative;display:block;aspect-ratio:4/3;min-width:0;overflow:hidden;border:0;border-radius:3px;background:#e5ddd2;cursor:zoom-in;isolation:isolate}
+.hideaway-project-image{object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1);display:block}
+.hideaway-project:hover .hideaway-project-image,.hideaway-project:focus-visible .hideaway-project-image{transform:scale(1.045)}
+.hideaway-project-overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(12,28,42,.12);opacity:0;transition:opacity .32s ease}
+.hideaway-project:hover .hideaway-project-overlay,.hideaway-project:focus-visible .hideaway-project-overlay{opacity:1}
+.hideaway-project-view{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border:1px solid rgba(255,255,255,.85);background:rgba(13,30,44,.7);color:white;font-size:13px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;backdrop-filter:blur(5px)}
+.hideaway-project:focus-visible{outline:3px solid #c9a265;outline-offset:3px}
+.hideaway-project-lightbox{grid-template-rows:1fr;background:rgba(9,19,29,.97);animation:hideaway-lightbox-in .35s ease}
+.hideaway-project-lightbox .hideaway-lightbox-stage{grid-row:1;grid-column:2;padding:clamp(12px,4vw,48px)}
+.hideaway-project-lightbox .hideaway-lightbox-prev,.hideaway-project-lightbox .hideaway-lightbox-next{grid-row:1;z-index:2}
+.hideaway-project-lightbox .hideaway-lightbox-photo{width:auto;height:auto;max-height:calc(100dvh - 56px);max-width:100%;object-fit:contain;border-radius:2px}
+@media(min-width:900px){.hideaway-project-1,.hideaway-project-4{aspect-ratio:3/4}}
+@media(max-width:900px){.hideaway-project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+@media(max-width:540px){.hideaway-project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.hideaway-project{aspect-ratio:3/4}.hideaway-project:first-child{grid-column:span 2;aspect-ratio:4/3}.hideaway-project-overlay{display:none}.hideaway-project-lightbox .hideaway-lightbox-stage{padding:8px}}
+@media(prefers-reduced-motion:reduce){.hideaway-project-image,.hideaway-project-overlay{transition:none!important}.hideaway-project-lightbox{animation:none!important}}
