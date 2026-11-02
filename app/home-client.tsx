@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import type { DateRange } from "react-day-picker";
@@ -330,12 +331,23 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
   }, [photoFiles]);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
   const touchStart = useRef<number | null>(null);
-  const changePhoto = (direction: number) => setActivePhoto((current) => current === null ? null : (current + direction + galleryPhotos.length) % galleryPhotos.length);
+  const transitionGallery = (nextIndex: number | null) => {
+    // Let the browser morph the actual thumbnail into the enlarged image.
+    // This works in modern Chrome/Safari; older browsers get a clean fallback.
+    if (typeof document !== "undefined" && "startViewTransition" in document) {
+      document.startViewTransition(() => flushSync(() => setActivePhoto(nextIndex)));
+    } else {
+      setActivePhoto(nextIndex);
+    }
+  };
+  const changePhoto = (direction: number) => {
+    if (activePhoto !== null) transitionGallery((activePhoto + direction + galleryPhotos.length) % galleryPhotos.length);
+  };
   const openPhoto = (src: string) => {
     const index = galleryPhotos.findIndex((item) => item.src === src);
-    if (index >= 0) setActivePhoto(index);
+    if (index >= 0) transitionGallery(index);
   };
-  const closePhoto = () => setActivePhoto(null);
+  const closePhoto = () => transitionGallery(null);
   useEffect(() => {
     if (activePhoto === null) return;
     const oldOverflow = document.body.style.overflow;
@@ -539,34 +551,42 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
 
       <section className="section-wash bg-[#24323b] px-5 py-24 text-white sm:px-8 lg:py-32"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><Reveal direction="left"><div><p className="eyebrow !text-[#c7ad91]">Everything you need</p><h2 className="mt-5 max-w-md font-display text-5xl font-light leading-[1.02] sm:text-6xl">Room to arrive, settle in and switch off.</h2></div></Reveal><div className="grid gap-px overflow-hidden rounded-3xl bg-white/12 sm:grid-cols-2">{amenities.map((item, index) => <Reveal key={item.title} delay={index * 65} className="h-full"><div className="amenity-card h-full bg-[#24323b] p-7 sm:p-8"><item.icon className="amenity-icon mb-5 size-6 text-[#c7ad91]" /><h3 className="font-display text-2xl font-normal">{item.title}</h3><p className="mt-2 leading-7 text-white/60">{item.copy}</p></div></Reveal>)}</div></div></div></section>
 
-      <section id="gallery" className="scroll-mt-20 px-5 py-24 sm:px-8 lg:py-36">
+      <section id="gallery" className="ruben-gallery-section scroll-mt-20 px-4 py-24 sm:px-8 lg:py-36">
         <div className="mx-auto max-w-7xl">
           <Reveal><div className="mb-12 text-center"><p className="eyebrow">Inside and out</p><h2 className="section-title mx-auto mt-5">Gallery</h2></div></Reveal>
-          <div className="hideaway-project-grid">
-            {galleryPhotos.slice(0, allPhotosOpen ? undefined : 6).map((photo, index) => (
+          <div className="ruben-gallery-grid">
+            {galleryPhotos.slice(0, allPhotosOpen ? undefined : 9).map((photo, index) => (
               <button key={photo.src} type="button" onClick={() => openPhoto(photo.src)}
-                className={`hideaway-project hideaway-project-${index % 6}`}
-                aria-label="Open photograph">
-                <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 33vw" quality={74} loading={index < 3 ? "eager" : "lazy"} className="hideaway-project-image" />
-                <span className="hideaway-project-overlay" aria-hidden="true"><span className="hideaway-project-view">View <ArrowRight className="size-4" /></span></span>
+                className={`ruben-gallery-tile ruben-gallery-tile-${index % 9}`}
+                aria-label={`Open photo ${index + 1}`}>
+                <Image src={photo.src} alt={photo.alt} fill
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 48vw, 36vw"
+                  quality={68} loading={index < 2 ? "eager" : "lazy"}
+                  className="ruben-gallery-image"
+                  style={{viewTransitionName: activePhoto === null ? `ruben-gallery-${index}` : "none"}} />
               </button>
             ))}
           </div>
-          {galleryPhotos.length > 6 && <div className="mt-12 text-center">
-            <Button onClick={() => setAllPhotosOpen((current) => !current)} variant="outline" className="motion-button h-12 rounded-full border-[#24323b] bg-transparent px-8 uppercase tracking-[0.12em] hover:bg-[#24323b] hover:text-white">
-              {allPhotosOpen ? "Show less" : "Show more"} <ArrowRight className="ml-3 size-4" />
+          {galleryPhotos.length > 9 && <div className="mt-12 text-center">
+            <Button onClick={() => setAllPhotosOpen((value) => !value)} variant="outline"
+              className="motion-button h-12 rounded-full border-[#24323b] bg-transparent px-8 uppercase tracking-[0.12em] hover:bg-[#24323b] hover:text-white">
+              {allPhotosOpen ? "Show less" : "Explore more"} <ArrowRight className="ml-3 size-4" />
             </Button>
           </div>}
         </div>
       </section>
-      {activePhoto !== null && galleryPhotos[activePhoto] && <div className="hideaway-lightbox hideaway-project-lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-        <button className="hideaway-lightbox-close" type="button" onClick={closePhoto} aria-label="Close viewer"><X className="size-6" /></button>
-        <button className="hideaway-lightbox-prev" type="button" onClick={() => changePhoto(-1)} aria-label="Previous photo"><ChevronLeft className="size-7" /></button>
-        <div className="hideaway-lightbox-stage" onTouchStart={(e) => { touchStart.current = e.touches[0]?.clientX ?? null; }} onTouchEnd={(e) => { if (touchStart.current === null) return; const delta = e.changedTouches[0].clientX - touchStart.current; if (Math.abs(delta) > 45) changePhoto(delta < 0 ? 1 : -1); touchStart.current = null; }}>
-          <Image key={galleryPhotos[activePhoto].src} src={galleryPhotos[activePhoto].src} alt={galleryPhotos[activePhoto].alt} width={1600} height={1100} sizes="100vw" quality={82} className="hideaway-lightbox-photo" priority />
+      {activePhoto !== null && galleryPhotos[activePhoto] && (
+        <div className="ruben-gallery-overlay" role="dialog" aria-modal="true" aria-label="Photo gallery">
+          <button type="button" className="ruben-gallery-close" onClick={closePhoto} aria-label="Close gallery"><X className="size-6"/></button>
+          <button type="button" className="ruben-gallery-prev" onClick={() => changePhoto(-1)} aria-label="Previous image"><ChevronLeft className="size-7"/></button>
+          <div className="ruben-gallery-stage" onTouchStart={(e) => {touchStart.current = e.touches[0]?.clientX ?? null;}} onTouchEnd={(e) => {if(touchStart.current === null) return; const dx = e.changedTouches[0].clientX - touchStart.current; if(Math.abs(dx) > 45) changePhoto(dx < 0 ? 1 : -1); touchStart.current = null;}}>
+            <Image key={galleryPhotos[activePhoto].src} src={galleryPhotos[activePhoto].src} alt={galleryPhotos[activePhoto].alt}
+              width={1800} height={1200} sizes="100vw" quality={83} priority
+              className="ruben-gallery-full-image" style={{viewTransitionName: `ruben-gallery-${activePhoto}`}} />
+          </div>
+          <button type="button" className="ruben-gallery-next" onClick={() => changePhoto(1)} aria-label="Next image"><ChevronRight className="size-7"/></button>
         </div>
-        <button className="hideaway-lightbox-next" type="button" onClick={() => changePhoto(1)} aria-label="Next photo"><ChevronRight className="size-7" /></button>
-      </div>}
+      )}
       <section id="location" className="scroll-mt-20 bg-[#e8e1d7] px-5 py-28 sm:px-8 lg:py-36"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-2 lg:items-center"><Reveal direction="left"><div className="location-image overflow-hidden rounded-[2rem]"><img src="/photos/terrace-wide.webp" alt="Private terrace with mountain and garden views at The Hideaway" className="aspect-[4/3] size-full object-cover" loading="lazy" decoding="async" /></div></Reveal><Reveal direction="right" delay={100}><div><p className="eyebrow">Discover Donegal</p><h2 className="section-title mt-5">Bundoran and beyond.</h2><p className="mt-6 max-w-xl text-lg leading-8 text-[#646861]">A short drive from Bundoran town and 2.2 km from Tullan Strand, The Hideaway makes an easy base for beach days, coastal walks and slow drives through the north-west.</p><div className="mt-9 divide-y divide-[#cfc4b6] border-y border-[#cfc4b6]">{nearby.map(([place, distance, copy], index) => <Reveal key={place} delay={140 + index * 70}><div className="nearby-row grid grid-cols-[1fr_auto] gap-5 py-5"><div><h3 className="font-display text-2xl">{place}</h3><p className="mt-1 text-sm text-[#6b6e67]">{copy}</p></div><span className="pt-1 text-sm text-[#8c6b4d]">{distance}</span></div></Reveal>)}</div></div></Reveal></div></section>
 
       <section id="reviews" className="scroll-mt-20 bg-[#fbfaf7] px-5 py-28 sm:px-8 lg:py-36">
