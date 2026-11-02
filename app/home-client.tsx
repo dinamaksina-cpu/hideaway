@@ -629,7 +629,7 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
 
           <div className="mt-9 grid gap-6 lg:grid-cols-[1fr_1.05fr]">
             <Reveal direction="left">
-              <form onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const name = String(data.get("name") || ""); const email = String(data.get("email") || ""); const subject = String(data.get("subject") || "Enquiry from The Hideaway website"); const message = String(data.get("message") || ""); window.location.href = `mailto:thehideawaybundoran@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`; }} className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-5 shadow-sm sm:p-7">
+              <form onSubmit={(event) => { event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const name = String(data.get("name") || ""); const email = String(data.get("email") || ""); const subject = String(data.get("subject") || "Enquiry from The Hideaway website"); const message = String(data.get("message") || ""); const whatsappMessage = `Hello! I have an enquiry about The Hideaway.\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage: ${message}`; window.open(`https://wa.me/353860755969?text=${encodeURIComponent(whatsappMessage)}`, "_blank", "noopener,noreferrer"); }} className="rounded-[1.3rem] border border-[#d8d1c6] bg-[#f9f7f3] p-5 shadow-sm sm:p-7">
                 <h3 className="font-display text-2xl font-normal text-[#2b4153]">Send a message</h3>
                 <div className="mt-5 grid gap-4 sm:grid-cols-2">
                   <div><Label htmlFor="contact-name" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Name *</Label><Input id="contact-name" name="name" required className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="Your name" /></div>
@@ -637,7 +637,7 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
                 </div>
                 <div className="mt-4"><Label htmlFor="contact-subject" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Subject</Label><Input id="contact-subject" name="subject" className="mt-2.5 h-11 rounded-full border-[#e2ddd6] bg-[#fbfaf7] px-4" placeholder="What&apos;s this about?" /></div>
                 <div className="mt-4"><Label htmlFor="contact-message" className="text-xs uppercase tracking-[0.08em] text-[#53615c]">Message *</Label><Textarea id="contact-message" name="message" required className="mt-2.5 min-h-24 rounded-xl border-[#e2ddd6] bg-[#fbfaf7] p-4" placeholder="Tell us how we can help..." /></div>
-                <Button type="submit" className="mt-5 h-11 w-full rounded-full bg-[#294154] text-sm uppercase tracking-[0.12em] text-white hover:bg-[#203545]">Send Message <Send className="ml-2 size-4" /></Button>
+                <Button type="submit" className="mt-5 h-11 w-full rounded-full bg-[#294154] text-sm uppercase tracking-[0.12em] text-white hover:bg-[#203545]">Send via WhatsApp <Send className="ml-2 size-4" /></Button>
               </form>
             </Reveal>
 
