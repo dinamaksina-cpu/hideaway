@@ -274,6 +274,7 @@ export default function HomeClient() {
   const [activeSection, setActiveSection] = useState("top");
   const progressRef = useRef<HTMLDivElement>(null);
   const cinematicHeroRef = useRef<HTMLElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
   const nav = [["Home", "top"], ["About", "stay"], ["Gallery", "gallery"], ["Booking", "booking"], ["Contact", "contact"]];
 
@@ -324,6 +325,38 @@ export default function HomeClient() {
       window.removeEventListener("scroll", updateScroll);
       activeHero?.removeEventListener("pointermove", onPointerMove);
       window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  // Measure the actual heading width, including the italic font glyphs, before
+  // choosing the largest possible font size. This prevents clipping at any width.
+  useEffect(() => {
+    const title = heroTitleRef.current;
+    if (!title) return;
+    const fitTitle = () => {
+      if (window.innerWidth <= 640) {
+        title.style.removeProperty("font-size");
+        return;
+      }
+      const available = title.clientWidth - 26;
+      if (available <= 0) return;
+      const desired = Math.min(150, Math.max(70, window.innerWidth * 0.125));
+      title.style.fontSize = `${desired}px`;
+      const words = Array.from(title.querySelectorAll<HTMLElement>(".hideaway-title-word"));
+      const wordWidth = words.reduce((sum, word) => sum + word.getBoundingClientRect().width, 0);
+      const gap = desired * 0.13;
+      const widthNeeded = wordWidth + gap + 8;
+      const size = widthNeeded > available ? desired * (available / widthNeeded) : desired;
+      title.style.fontSize = `${Math.floor(size)}px`;
+    };
+    const observer = new ResizeObserver(fitTitle);
+    observer.observe(title);
+    window.addEventListener("resize", fitTitle);
+    document.fonts.ready.then(fitTitle).catch(() => {});
+    fitTitle();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", fitTitle);
     };
   }, []);
 
@@ -404,7 +437,7 @@ export default function HomeClient() {
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-74px)] max-w-7xl items-center justify-center px-5 pb-20 pt-16 text-center sm:px-8 sm:pb-24 lg:pt-20">
           <div className="w-full max-w-5xl">
             <p className="bundoran-hero-kicker premium-hero-kicker text-[10px] font-medium uppercase sm:text-xs">Bundoran · Wild Atlantic Way</p>
-            <h1 className="bundoran-hero-title premium-hero-heading mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
+            <h1 ref={heroTitleRef} className="bundoran-hero-title premium-hero-heading mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
               <span className="hideaway-title-word hideaway-title-the inline-block text-[#f4efe9]">The</span>{" "}
               <span className="hideaway-title-word hideaway-title-name inline-block italic text-[#c9a265]">Hideaway</span>
             </h1>

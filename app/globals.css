@@ -467,23 +467,22 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   .hideaway-title-word { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 }
 
-/* Responsive hero title: keep both animated words fully within the viewport. */
+/* Keep the original grand title; JS fits the two real glyph widths to the available space. */
 .premium-ocean-hero .bundoran-hero-title {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: baseline;
   justify-content: center;
-  column-gap: .16em;
-  row-gap: 0;
+  gap: .13em;
   width: 100%;
   max-width: 100%;
   margin-inline: auto;
-  padding: .12em .08em .18em;
+  padding: .12em 13px .19em;
   box-sizing: border-box;
-  font-size: clamp(2.4rem, 7vw, 6.75rem);
-  line-height: 1.07;
+  font-size: clamp(4.4rem, 12.5vw, 9.4rem);
+  line-height: 1.06;
   letter-spacing: -.045em;
-  white-space: normal;
+  white-space: nowrap;
   overflow: visible;
 }
 .premium-ocean-hero .hideaway-title-word {
@@ -493,13 +492,15 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 }
 @media (max-width: 640px) {
   .premium-ocean-hero .bundoran-hero-title {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
-    column-gap: .13em;
-    padding-inline: .06em;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    font-size: clamp(4.6rem, 15vw, 6rem);
+    line-height: .9;
+    padding: .16em 8px .26em;
   }
+  .premium-ocean-hero .hideaway-title-word { max-width: 100%; }
 }
-@media (max-width: 420px) {
-  .premium-ocean-hero .bundoran-hero-title {
-    font-size: clamp(2.25rem, 9.2vw, 3.5rem);
-  }
+@media (max-width: 375px) {
+  .premium-ocean-hero .bundoran-hero-title { font-size: 14vw; }
 }
