@@ -328,36 +328,37 @@ export default function HomeClient() {
     };
   }, []);
 
-  // Measure the actual heading width, including the italic font glyphs, before
-  // choosing the largest possible font size. This prevents clipping at any width.
+  // Measure the intrinsic widths of both words at a known font size.
+  // Keep a generous 8% safe margin on BOTH sides, including italic overhang.
   useEffect(() => {
     const title = heroTitleRef.current;
     if (!title) return;
-    const fitTitle = () => {
-      if (window.innerWidth <= 640) {
-        title.style.removeProperty("font-size");
-        return;
-      }
-      const available = title.clientWidth - 26;
-      if (available <= 0) return;
-      const desired = Math.min(150, Math.max(70, window.innerWidth * 0.125));
-      title.style.fontSize = `${desired}px`;
-      const words = Array.from(title.querySelectorAll<HTMLElement>(".hideaway-title-word"));
-      const wordWidth = words.reduce((sum, word) => sum + word.getBoundingClientRect().width, 0);
-      const gap = desired * 0.13;
-      const widthNeeded = wordWidth + gap + 8;
-      const size = widthNeeded > available ? desired * (available / widthNeeded) : desired;
-      title.style.fontSize = `${Math.floor(size)}px`;
+    const parent = title.parentElement;
+    if (!parent) return;
+    let frame = 0;
+    const fit = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const words = Array.from(title.querySelectorAll<HTMLElement>(".hideaway-title-word"));
+        if (words.length !== 2) return;
+        const available = Math.max(120, Math.min(parent.clientWidth, window.innerWidth) - 48);
+        const stacked = window.innerWidth < 700;
+        const base = 160;
+        title.style.fontSize = `${base}px`;
+        const widths = words.map(word => word.getBoundingClientRect().width);
+        // 15% overhang reserve covers the italic H/y and any font fallback.
+        const needed = (stacked ? Math.max(...widths) : widths[0] + widths[1] + base * 0.13) * 1.15;
+        const maximum = stacked ? 105 : 154;
+        const size = Math.min(maximum, base * available / needed);
+        title.style.fontSize = `${Math.max(25, Math.floor(size))}px`;
+      });
     };
-    const observer = new ResizeObserver(fitTitle);
-    observer.observe(title);
-    window.addEventListener("resize", fitTitle);
-    document.fonts.ready.then(fitTitle).catch(() => {});
-    fitTitle();
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", fitTitle);
-    };
+    const observer = new ResizeObserver(fit);
+    observer.observe(parent);
+    window.addEventListener("resize", fit);
+    document.fonts.ready.then(fit).catch(() => {});
+    fit();
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); window.removeEventListener("resize", fit); };
   }, []);
 
   useEffect(() => {

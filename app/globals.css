@@ -467,9 +467,11 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   .hideaway-title-word { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 }
 
-/* Keep the original grand title; JS fits the two real glyph widths to the available space. */
+/* Safe responsive cinema title. JS sizes against actual word widths.
+   No nowrap on the heading itself: flex prevents forced overflow. */
 .premium-ocean-hero .bundoran-hero-title {
   display: flex;
+  flex-direction: row;
   flex-wrap: nowrap;
   align-items: baseline;
   justify-content: center;
@@ -477,12 +479,12 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   width: 100%;
   max-width: 100%;
   margin-inline: auto;
-  padding: .12em 13px .19em;
+  padding: .14em 0 .2em;
   box-sizing: border-box;
-  font-size: clamp(4.4rem, 12.5vw, 9.4rem);
-  line-height: 1.06;
+  font-size: 100px;
+  line-height: 1.13;
   letter-spacing: -.045em;
-  white-space: nowrap;
+  white-space: normal;
   overflow: visible;
 }
 .premium-ocean-hero .hideaway-title-word {
@@ -490,17 +492,11 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   flex: 0 0 auto;
   white-space: nowrap;
 }
-@media (max-width: 640px) {
+@media (max-width: 699px) {
   .premium-ocean-hero .bundoran-hero-title {
     flex-direction: column;
     align-items: center;
     gap: 0;
-    font-size: clamp(4.6rem, 15vw, 6rem);
-    line-height: .9;
-    padding: .16em 8px .26em;
+    line-height: 1.06;
   }
-  .premium-ocean-hero .hideaway-title-word { max-width: 100%; }
-}
-@media (max-width: 375px) {
-  .premium-ocean-hero .bundoran-hero-title { font-size: 14vw; }
 }
