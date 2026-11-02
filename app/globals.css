@@ -901,3 +901,31 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 @media (prefers-reduced-motion: reduce) {
   .hideaway-logo-intro-inner { animation: none !important; opacity: 1; }
 }
+
+/* November 2: completely static intro artwork to prevent logo shimmer.
+   Only the entire opaque intro layer fades away; no child pixels move or fade. */
+.page-intro.hideaway-logo-intro {
+  animation: hideaway-static-curtain-fade 0.5s 1.55s linear forwards !important;
+  transform: none !important;
+  will-change: auto !important;
+  background: #253640 !important;
+}
+.page-intro.hideaway-logo-intro .hideaway-logo-intro-inner,
+.page-intro.hideaway-logo-intro .hideaway-logo-intro-mark,
+.page-intro.hideaway-logo-intro .hideaway-logo-intro-line,
+.page-intro.hideaway-logo-intro .hideaway-logo-intro-caption {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  will-change: auto !important;
+}
+@keyframes hideaway-static-curtain-fade {
+  0% { opacity: 1; visibility: visible; }
+  99% { opacity: 0; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-intro.hideaway-logo-intro { display: none !important; }
+}
