@@ -588,15 +588,17 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
     flex-wrap: nowrap;
     gap: 0;
     padding: 0 10px 10px;
-    font-size: 1rem !important;
+    /* Both words inherit exactly the same type size. */
+    font-size: clamp(43px, 13.5vw, 68px) !important;
     line-height: 1.02 !important;
   }
-  .premium-ocean-hero .hideaway-title-the {
-    font-size: clamp(70px, 23vw, 115px) !important;
+  .premium-ocean-hero .hideaway-title-the,
+  .premium-ocean-hero .hideaway-title-name {
+    font-size: inherit !important;
+    line-height: inherit;
   }
   .premium-ocean-hero .hideaway-title-name {
-    font-size: clamp(43px, 12.2vw, 78px) !important;
-    letter-spacing: -.06em;
+    letter-spacing: -.055em;
   }
 }
 @media (prefers-reduced-motion: reduce) {
