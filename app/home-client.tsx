@@ -161,7 +161,7 @@ function Reveal({
 
 function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const [dates, setDates] = useState<DateRange | undefined>();
-  const [calendarMonth, setCalendarMonth] = useState<Date>(new Date());
+  const [calendarMonth, setCalendarMonth] = useState<Date>(new Date(2027, 3, 1));
   const [guests, setGuests] = useState("2");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -173,10 +173,15 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
 
   // Booking.com rates and blocked nights are manually entered in booking-calendar-data.ts.
   const blockedSet = useMemo(() => new Set(blockedNights), []);
+  // Only nights with confirmed manual rates can be requested; all winter and unverified dates are closed.
+  const isNightClosed = (day: Date) => {
+    const key = format(day, "yyyy-MM-dd");
+    return key < "2027-04-01" || key > "2027-10-31" || blockedSet.has(key) || nightlyRates[key] === undefined;
+  };
   const hasBlockedNight = useMemo(() => {
     if (!dates?.from || !dates.to) return false;
     return eachDayOfInterval({ start: dates.from, end: subDays(dates.to, 1) })
-      .some(day => blockedSet.has(format(day, "yyyy-MM-dd")));
+      .some(day => isNightClosed(day));
   }, [dates, blockedSet]);
   const rateSummary = useMemo(() => {
     if (!dates?.from || !dates.to || dates.to <= dates.from) return null;
@@ -199,7 +204,7 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
       return;
     }
     if (hasBlockedNight) {
-      setError("These dates include a night marked unavailable. Please choose other dates.");
+      setError("Some nights are outside the rental season or unavailable. Please choose dates with prices shown.");
       return;
     }
     setSubmitting(true);
@@ -261,13 +266,13 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
                     onMonthChange={setCalendarMonth}
                     selected={dates}
                     onSelect={setDates}
-                    disabled={[{ before: new Date() }, ...blockedNights.map(date => new Date(`${date}T12:00:00`))]}
+                    disabled={[{ before: new Date() }, isNightClosed]}
                     className="mx-auto p-2 sm:p-4 [--cell-size:--spacing(10)]"
                     components={{
                       DayButton: ({ day, modifiers, ...props }) => {
                         const key = format(day.date, "yyyy-MM-dd");
                         const rate = nightlyRates[key];
-                        const blocked = blockedSet.has(key);
+                        const blocked = isNightClosed(day.date);
                         return (
                           <CalendarDayButton day={day} modifiers={modifiers} {...props} className="!h-12 !min-w-0 !w-full !gap-0.5 !px-0.5">
                             <span className="text-[12px] leading-none">{format(day.date, "d")}</span>
@@ -284,7 +289,7 @@ function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o
                   <button type="button" onClick={() => setCalendarMonth(new Date(2027, 3, 1))} className="rounded-full border border-[#c5a16b] bg-[#faf4e9] px-4 py-2 text-xs font-semibold text-[#24323b] hover:bg-[#f2e5ce]">View Apr–Oct 2027 prices</button>
                   <button type="button" onClick={() => setCalendarMonth(new Date())} className="rounded-full border border-[#d8d0c5] px-4 py-2 text-xs text-[#24323b] hover:bg-[#eee6db]">Current month</button>
                 </div>
-                <p className="mt-3 text-xs leading-5 text-[#74746f]">€ = indicative nightly rate · — = unavailable · blank = not verified. {bookingCalendar.notice} All requests require confirmation.</p>
+                <p className="mt-3 text-xs leading-5 text-[#74746f]">€ = indicative nightly rate · — = unavailable. Dates outside the published season are closed. {bookingCalendar.notice} All requests require confirmation.</p>
                 <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                   <div className="rounded-xl border border-[#ddd4c8] bg-[#fbf8f3] p-3"><span className="block text-xs text-[#7a7c76]">Check-in</span><strong className="font-medium text-[#24323b]">{dates?.from ? format(dates.from, "d MMM yyyy") : "Choose date"}</strong></div>
                   <div className="rounded-xl border border-[#ddd4c8] bg-[#fbf8f3] p-3"><span className="block text-xs text-[#7a7c76]">Check-out</span><strong className="font-medium text-[#24323b]">{dates?.to ? format(dates.to, "d MMM yyyy") : "Choose date"}</strong></div>
