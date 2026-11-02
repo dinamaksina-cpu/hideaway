@@ -880,3 +880,24 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 /* Sharper intro-only logo: retain original layout and animation. */
 .hideaway-logo-intro-mark { width: 184px; height: auto; max-width: 55vw; object-fit: contain; filter: none; image-rendering: auto; }
 @media (max-width: 640px) { .hideaway-logo-intro-mark { width: 178px; } }
+
+/* Intro logo stability: animate opacity only, never rescale or translate the raster logo.
+   The previous two simultaneous transform animations caused subpixel shimmer. */
+.hideaway-logo-intro-inner {
+  animation: hideaway-intro-fade-only 0.85s ease-out both !important;
+  transform: none !important;
+  backface-visibility: visible;
+}
+.hideaway-logo-intro-mark {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+  will-change: auto;
+}
+@keyframes hideaway-intro-fade-only {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hideaway-logo-intro-inner { animation: none !important; opacity: 1; }
+}
