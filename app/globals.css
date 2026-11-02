@@ -761,3 +761,43 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 @media(max-width:1023px){ .location-video-frame {height: min(65vw, 560px);} }
 @media(max-width:640px){ .location-video-frame {height: 420px;border-radius:1.25rem;} }
 @media(prefers-reduced-motion:reduce){.location-video-media{display:none}.location-video-frame{background:#203747 url('/images/bundoran-hero-reference.jpg') center/cover no-repeat}}
+
+/* Discover Donegal: full-width cinematic video ABOVE the information on every screen. */
+#location { padding-top: 0 !important; }
+#location > div {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: clamp(34px, 5vw, 76px) !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+#location > div > .reveal-block:first-child {
+  width: 100vw !important;
+  max-width: none !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
+#location .location-video-frame {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9;
+  border-radius: 0 !important;
+  box-shadow: none;
+}
+#location .location-video-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain !important;
+  object-position: center;
+}
+#location > div > .reveal-block:nth-child(2) {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+}
+@media (max-width: 767px) {
+  #location > div { gap: 30px !important; }
+}
