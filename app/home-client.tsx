@@ -274,7 +274,6 @@ export default function HomeClient() {
   const [activeSection, setActiveSection] = useState("top");
   const progressRef = useRef<HTMLDivElement>(null);
   const cinematicHeroRef = useRef<HTMLElement>(null);
-  const cinematicImageRef = useRef<HTMLImageElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
   const nav = [["Home", "top"], ["About", "stay"], ["Gallery", "gallery"], ["Booking", "booking"], ["Contact", "contact"]];
 
@@ -293,10 +292,6 @@ export default function HomeClient() {
         }
         if (heroImageRef.current && scrollTop < window.innerHeight * 1.25) {
           heroImageRef.current.style.transform = `scale(1.055) translate3d(0, ${scrollTop * 0.075}px, 0)`;
-        }
-        if (cinematicImageRef.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          const moveY = Math.min(scrollTop, window.innerHeight) * 0.09;
-          cinematicImageRef.current.style.setProperty("--ocean-scroll", `${moveY.toFixed(1)}px`);
         }
         const nextCompact = scrollTop > 72;
         if (nextCompact !== compact) {
@@ -390,13 +385,19 @@ export default function HomeClient() {
       </header>
 
       <section id="top" ref={cinematicHeroRef} className="bundoran-hero premium-ocean-hero relative isolate overflow-hidden pt-[74px]">
-        <img
-          ref={cinematicImageRef}
-          src="/images/bundoran-hero-reference.jpg"
-          alt="Blue-toned coastal view of Bundoran behind The Hideaway hero section"
-          className="bundoran-hero-media premium-ocean-image absolute inset-0 h-full w-full object-cover object-center"
-          fetchPriority="high"
-        />
+        <video
+          className="bundoran-hero-media hideaway-hero-video absolute inset-0 h-full w-full object-cover object-center"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/bundoran-hero-reference.jpg"
+          aria-hidden="true"
+          tabIndex={-1}
+        >
+          <source src="/videos/hideaway-ocean-hero.mp4" type="video/mp4" />
+        </video>
         <div className="bundoran-hero-overlay absolute inset-0" aria-hidden="true" />
         <div className="premium-ocean-sheen absolute inset-0" aria-hidden="true" />
 
@@ -404,8 +405,8 @@ export default function HomeClient() {
           <div className="w-full max-w-5xl">
             <p className="bundoran-hero-kicker premium-hero-kicker text-[10px] font-medium uppercase sm:text-xs">Bundoran · Wild Atlantic Way</p>
             <h1 className="bundoran-hero-title premium-hero-heading mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
-              <span className="text-[#f4efe9]">The</span>{" "}
-              <span className="italic text-[#c9a265]">Hideaway</span>
+              <span className="hideaway-title-word hideaway-title-the inline-block text-[#f4efe9]">The</span>{" "}
+              <span className="hideaway-title-word hideaway-title-name inline-block italic text-[#c9a265]">Hideaway</span>
             </h1>
             <p className="bundoran-hero-text premium-hero-description mx-auto mt-7 max-w-3xl text-base leading-[1.8] text-white/88 sm:text-xl">
               A modern, private two-bedroom chalet by the Atlantic coast. Quiet

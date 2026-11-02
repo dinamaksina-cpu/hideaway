@@ -437,3 +437,32 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   .premium-ocean-image,.premium-ocean-sheen,.premium-hero-kicker,.premium-hero-heading,.premium-hero-description,.premium-hero-actions { animation: none !important; transition:none !important; filter:none !important; transform:none !important; opacity:1 !important; }
   .premium-gallery-image,.premium-gallery-view { transition:none !important; }
 }
+
+/* Ocean video hero — only homepage video and title animation */
+.hideaway-hero-video {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+  object-position: center 52%;
+}
+.premium-ocean-hero .bundoran-hero-overlay {
+  background: linear-gradient(180deg, rgba(12,29,43,.18) 0%, rgba(9,24,40,.38) 100%),
+              linear-gradient(90deg, rgba(12,29,45,.20), rgba(10,29,46,.12) 45%, rgba(12,29,45,.20));
+}
+.premium-ocean-hero .premium-hero-heading {
+  animation: none !important;
+  overflow: visible;
+}
+.hideaway-title-word { opacity: 0; animation: hideaway-title-reveal 1.45s cubic-bezier(.16,1,.3,1) both; }
+.hideaway-title-the { animation-delay: .38s; }
+.hideaway-title-name { animation-delay: .66s; }
+@keyframes hideaway-title-reveal {
+  0% { opacity: 0; transform: translateY(42px); filter: blur(8px); clip-path: inset(0 0 100% 0); }
+  75% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hideaway-hero-video { display: none !important; }
+  .premium-ocean-hero { background: #152738 url('/images/bundoran-hero-reference.jpg') center/cover no-repeat; }
+  .hideaway-title-word { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
+}
