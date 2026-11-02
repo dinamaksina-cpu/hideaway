@@ -6,7 +6,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Picture = { src: string; alt: string };
-type Props = { photos: Picture[]; onOpen?: (src: string) => void };
+type Props = { photos: Picture[]; onOpen?: (src: string) => void; onViewAll?: () => void };
 const mod = (x: number, n: number) => ((x % n) + n) % n;
 
 /** Smooth horizontal photo rail, adapted to The Hideaway.
@@ -14,7 +14,7 @@ const mod = (x: number, n: number) => ((x % n) + n) % n;
  * Pointer/wheel target follows an eased scroll offset; each card scales with its
  * position relative to the centre, with larger cards arriving from the right.
  */
-export default function SmoothScrollSlider({ photos, onOpen }: Props) {
+export default function SmoothScrollSlider({ photos, onOpen, onViewAll }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const target = useRef(0);
@@ -25,6 +25,7 @@ export default function SmoothScrollSlider({ photos, onOpen }: Props) {
   const [width, setWidth] = useState(1000);
   const [reduced, setReduced] = useState(false);
   const total = photos.length;
+  const wheelLimit = Math.min(10, total);
   const slideWidth = Math.min(450, Math.max(205, width * (width < 680 ? .68 : .33)));
   const slideHeight = slideWidth * .89;
   const step = slideWidth + Math.min(28, width * .025);
@@ -50,13 +51,16 @@ export default function SmoothScrollSlider({ photos, onOpen }: Props) {
     if (!host) return;
     const wheel = (event: WheelEvent) => {
       if (!total) return;
-      event.preventDefault();
       const amount = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-      target.current += Math.max(-250, Math.min(250, amount)) / step * .65;
+      // Wheel moves through only the first ten items. At either edge, the page scrolls normally.
+      if (amount > 0 && target.current >= wheelLimit - 1) return;
+      if (amount < 0 && target.current <= 0) return;
+      event.preventDefault();
+      target.current = Math.max(0, Math.min(wheelLimit - 1, target.current + Math.max(-250, Math.min(250, amount)) / step * .65));
     };
     host.addEventListener('wheel', wheel, { passive: false });
     return () => host.removeEventListener('wheel', wheel);
-  }, [step, total]);
+  }, [step, total, wheelLimit]);
   useEffect(() => {
     if (!total) return;
     let raf = 0;
@@ -128,6 +132,7 @@ export default function SmoothScrollSlider({ photos, onOpen }: Props) {
         <button type="button" aria-label="Previous photo" onClick={() => {target.current-=1;}}><ChevronLeft size={20}/></button>
         <button type="button" aria-label="Next photo" onClick={() => {target.current+=1;}}><ChevronRight size={20}/></button>
       </div>
+      <div className="hideaway-smooth-all"><button type="button" onClick={onViewAll}>View all photos</button></div>
     </div>
   );
 }

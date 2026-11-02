@@ -749,3 +749,8 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
 .hideaway-smooth-controls button:hover { background: #e8e1d7; }
 @media (max-width: 640px) { .hideaway-smooth-host { height: 360px; } .hideaway-smooth-edge { width: 9vw; } .hideaway-smooth-card { border-radius: 5px; } }
 @media (prefers-reduced-motion:reduce) { .hideaway-smooth-card { will-change: auto; } }
+
+/* Gallery action below controls */
+.hideaway-smooth-all {display:flex; justify-content:center; margin-top:18px;}
+.hideaway-smooth-all button {border:1px solid #24323b; color:#24323b; background:transparent; padding:13px 28px; border-radius:999px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.14em; transition:background-color .25s,color .25s;}
+.hideaway-smooth-all button:hover {background:#24323b; color:white;}

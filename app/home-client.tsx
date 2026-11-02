@@ -329,7 +329,10 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
     const existing = new Map(gallery.map((item) => [item.src, item]));
     const newPhotos = photoFiles.map((src) => existing.get(src) ?? { src, alt: "The Hideaway holiday home photograph", label: "The Hideaway" });
     // New uploads are the gallery. Do not append the 26 legacy images again.
-    return newPhotos.length ? newPhotos : gallery;
+    const unique = Array.from(new Map((newPhotos.length ? newPhotos : gallery).map(item => [item.src, item])).values());
+    // Stable pseudo-random order: looks varied but does not reshuffle on every render.
+    const hash = (value: string) => { let n = 2166136261; for (let i = 0; i < value.length; i++) n = Math.imul(n ^ value.charCodeAt(i), 16777619); return n >>> 0; };
+    return unique.sort((a, b) => hash(a.src + "hideaway") - hash(b.src + "hideaway"));
   }, [photoFiles]);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
   const touchStart = useRef<number | null>(null);
@@ -555,9 +558,9 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
 
       <section id="gallery" className="hideaway-smooth-gallery scroll-mt-20 py-24 lg:py-36">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <Reveal><div className="mb-8 text-center"><p className="eyebrow">Inside and out</p><h2 className="section-title mx-auto mt-5">Gallery</h2></div></Reveal>
+          <Reveal><div className="mb-8 text-center"><p className="eyebrow">Inside and out</p><h2 className="section-title mx-auto mt-5">See the real Hideaway.</h2></div></Reveal>
         </div>
-        <SmoothScrollSlider photos={galleryPhotos} onOpen={openPhoto} />
+        <SmoothScrollSlider photos={galleryPhotos} onOpen={openPhoto} onViewAll={() => transitionGallery(0)} />
       </section>
       {activePhoto !== null && galleryPhotos[activePhoto] && (
         <div className="ruben-gallery-overlay" role="dialog" aria-modal="true" aria-label="Photo gallery">
