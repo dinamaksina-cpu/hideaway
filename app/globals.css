@@ -467,25 +467,39 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   .hideaway-title-word { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 }
 
-/* Hero title width fix (Nov 2026): keep the animated name inside the viewport. */
+/* Responsive hero title: keep both animated words fully within the viewport. */
 .premium-ocean-hero .bundoran-hero-title {
-  font-size: clamp(3rem, 7.4vw, 7.3rem);
-  line-height: 1.04;
-  letter-spacing: -.045em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: .16em;
+  row-gap: 0;
+  width: 100%;
   max-width: 100%;
-  padding: .10em .10em .16em;
+  margin-inline: auto;
+  padding: .12em .08em .18em;
   box-sizing: border-box;
+  font-size: clamp(2.4rem, 7vw, 6.75rem);
+  line-height: 1.07;
+  letter-spacing: -.045em;
+  white-space: normal;
+  overflow: visible;
+}
+.premium-ocean-hero .hideaway-title-word {
+  display: inline-block;
+  flex: 0 0 auto;
   white-space: nowrap;
 }
 @media (max-width: 640px) {
   .premium-ocean-hero .bundoran-hero-title {
-    font-size: clamp(2.35rem, 10.5vw, 4.75rem);
-    line-height: 1;
-    white-space: normal;
-    padding-inline: .04em;
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+    column-gap: .13em;
+    padding-inline: .06em;
   }
-  .premium-ocean-hero .hideaway-title-word {
-    display: block;
-    white-space: nowrap;
+}
+@media (max-width: 420px) {
+  .premium-ocean-hero .bundoran-hero-title {
+    font-size: clamp(2.25rem, 9.2vw, 3.5rem);
   }
 }
