@@ -357,7 +357,7 @@ export default function HomeClient({ photoFiles = [] }: { photoFiles?: string[] 
     const target = selectedTileRef.current?.isConnected ? selectedTileRef.current : null;
     const large = document.querySelector<HTMLImageElement>(".hideaway-lightbox-photo");
     // Closing onto the same tile mirrors the opening transition.
-    if (target && large && document.startViewTransition && !prefersReducedMotion()) {
+    if (target && large && !prefersReducedMotion()) {
       // The lightbox image has the transition name; the tile gets it upon state update.
       runPhotoTransition(() => {
         target.style.viewTransitionName = "hideaway-gallery-photo";
