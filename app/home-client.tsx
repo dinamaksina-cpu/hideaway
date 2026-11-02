@@ -273,12 +273,16 @@ export default function HomeClient() {
   const [headerCompact, setHeaderCompact] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
   const progressRef = useRef<HTMLDivElement>(null);
+  const cinematicHeroRef = useRef<HTMLElement>(null);
+  const cinematicImageRef = useRef<HTMLImageElement>(null);
   const heroImageRef = useRef<HTMLImageElement>(null);
   const nav = [["Home", "top"], ["About", "stay"], ["Gallery", "gallery"], ["Booking", "booking"], ["Contact", "contact"]];
 
   useEffect(() => {
     let frame = 0;
     let compact = false;
+    let previousX = 0;
+    let previousY = 0;
     const updateScroll = () => {
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => {
@@ -289,6 +293,10 @@ export default function HomeClient() {
         }
         if (heroImageRef.current && scrollTop < window.innerHeight * 1.25) {
           heroImageRef.current.style.transform = `scale(1.055) translate3d(0, ${scrollTop * 0.075}px, 0)`;
+        }
+        if (cinematicImageRef.current && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          const moveY = Math.min(scrollTop, window.innerHeight) * 0.09;
+          cinematicImageRef.current.style.setProperty("--ocean-scroll", `${moveY.toFixed(1)}px`);
         }
         const nextCompact = scrollTop > 72;
         if (nextCompact !== compact) {
@@ -303,10 +311,23 @@ export default function HomeClient() {
         setActiveSection((current) => current === currentSection ? current : currentSection);
       });
     };
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const hero = cinematicHeroRef.current;
+      if (!hero || window.scrollY > window.innerHeight * 1.2) return;
+      const rect = hero.getBoundingClientRect();
+      previousX = ((event.clientX - rect.left) / rect.width - 0.5) * 13;
+      previousY = ((event.clientY - rect.top) / rect.height - 0.5) * 9;
+      hero.style.setProperty("--ocean-pointer-x", `${previousX.toFixed(2)}px`);
+      hero.style.setProperty("--ocean-pointer-y", `${previousY.toFixed(2)}px`);
+    };
     updateScroll();
+    cinematicHeroRef.current?.addEventListener("pointermove", onPointerMove, { passive: true });
+    const activeHero = cinematicHeroRef.current;
     window.addEventListener("scroll", updateScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", updateScroll);
+      activeHero?.removeEventListener("pointermove", onPointerMove);
       window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -368,27 +389,29 @@ export default function HomeClient() {
         </div>
       </header>
 
-      <section id="top" className="bundoran-hero relative isolate overflow-hidden pt-[74px]">
+      <section id="top" ref={cinematicHeroRef} className="bundoran-hero premium-ocean-hero relative isolate overflow-hidden pt-[74px]">
         <img
+          ref={cinematicImageRef}
           src="/images/bundoran-hero-reference.jpg"
           alt="Blue-toned coastal view of Bundoran behind The Hideaway hero section"
-          className="bundoran-hero-media absolute inset-0 h-full w-full object-cover object-center"
+          className="bundoran-hero-media premium-ocean-image absolute inset-0 h-full w-full object-cover object-center"
           fetchPriority="high"
         />
         <div className="bundoran-hero-overlay absolute inset-0" aria-hidden="true" />
+        <div className="premium-ocean-sheen absolute inset-0" aria-hidden="true" />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-74px)] max-w-7xl items-center justify-center px-5 pb-20 pt-16 text-center sm:px-8 sm:pb-24 lg:pt-20">
           <div className="w-full max-w-5xl">
-            <p className="bundoran-hero-kicker text-[10px] font-medium uppercase sm:text-xs">Bundoran · Wild Atlantic Way</p>
-            <h1 className="bundoran-hero-title mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
+            <p className="bundoran-hero-kicker premium-hero-kicker text-[10px] font-medium uppercase sm:text-xs">Bundoran · Wild Atlantic Way</p>
+            <h1 className="bundoran-hero-title premium-hero-heading mt-7 font-display text-[clamp(4.4rem,10vw,9.4rem)] font-normal leading-[0.88] tracking-[-0.045em]">
               <span className="text-[#f4efe9]">The</span>{" "}
               <span className="italic text-[#c9a265]">Hideaway</span>
             </h1>
-            <p className="bundoran-hero-text mx-auto mt-7 max-w-3xl text-base leading-[1.8] text-white/88 sm:text-xl">
+            <p className="bundoran-hero-text premium-hero-description mx-auto mt-7 max-w-3xl text-base leading-[1.8] text-white/88 sm:text-xl">
               A modern, private two-bedroom chalet by the Atlantic coast. Quiet
               mornings, salt air and the surf on your doorstep.
             </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="premium-hero-actions mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <button
                 onClick={() => setBookingOpen(true)}
                 className="bundoran-hero-button inline-flex min-h-[54px] items-center justify-center rounded-[3px] bg-[#c6a061] px-10 text-sm font-semibold uppercase tracking-[0.16em] text-[#132638]"
@@ -434,7 +457,7 @@ export default function HomeClient() {
 
       <section className="section-wash bg-[#24323b] px-5 py-24 text-white sm:px-8 lg:py-32"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]"><Reveal direction="left"><div><p className="eyebrow !text-[#c7ad91]">Everything you need</p><h2 className="mt-5 max-w-md font-display text-5xl font-light leading-[1.02] sm:text-6xl">Room to arrive, settle in and switch off.</h2></div></Reveal><div className="grid gap-px overflow-hidden rounded-3xl bg-white/12 sm:grid-cols-2">{amenities.map((item, index) => <Reveal key={item.title} delay={index * 65} className="h-full"><div className="amenity-card h-full bg-[#24323b] p-7 sm:p-8"><item.icon className="amenity-icon mb-5 size-6 text-[#c7ad91]" /><h3 className="font-display text-2xl font-normal">{item.title}</h3><p className="mt-2 leading-7 text-white/60">{item.copy}</p></div></Reveal>)}</div></div></div></section>
 
-      <section id="gallery" className="scroll-mt-20 px-5 py-28 sm:px-8 lg:py-40"><div className="mx-auto max-w-7xl"><Reveal><div className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"><div><p className="eyebrow">Inside and out</p><h2 className="section-title mt-5">See the real Hideaway.</h2></div><p className="max-w-sm leading-7 text-[#696c65]">Every image here is from the property: bright interiors, a private terrace and open Donegal views.</p></div></Reveal><div className="grid auto-rows-[220px] grid-cols-2 gap-3 md:auto-rows-[280px] md:grid-cols-4">{featuredGallery.map((image, index) => <Reveal key={image.src} delay={index * 75} direction="scale" className={`${index === 0 ? "col-span-2 row-span-2" : ""} ${index === 4 ? "col-span-2" : ""}`}><button onClick={() => setGalleryImage(image)} className="gallery-tile group relative size-full overflow-hidden rounded-[1.4rem] text-left"><img src={image.src} alt={image.alt} className="size-full object-cover transition duration-700 group-hover:scale-[1.06]" loading="lazy" decoding="async" /><span className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-60 transition group-hover:opacity-90" /><span className="gallery-label absolute bottom-4 left-5 text-sm font-medium text-white">{image.label}</span></button></Reveal>)}</div><Reveal delay={150}><div className="mt-10 text-center"><Button onClick={() => setAllPhotosOpen(true)} variant="outline" className="motion-button h-12 rounded-full border-[#24323b] bg-transparent px-7 uppercase tracking-[0.12em] hover:bg-[#24323b] hover:text-white">View all {gallery.length} photos</Button></div></Reveal></div></section>
+      <section id="gallery" className="scroll-mt-20 px-5 py-28 sm:px-8 lg:py-40"><div className="mx-auto max-w-7xl"><Reveal><div className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"><div><p className="eyebrow">Inside and out</p><h2 className="section-title mt-5">See the real Hideaway.</h2></div><p className="max-w-sm leading-7 text-[#696c65]">Every image here is from the property: bright interiors, a private terrace and open Donegal views.</p></div></Reveal><div className="grid auto-rows-[220px] grid-cols-2 gap-3 md:auto-rows-[280px] md:grid-cols-4">{featuredGallery.map((image, index) => <Reveal key={image.src} delay={index * 75} direction="scale" className={`${index === 0 ? "col-span-2 row-span-2" : ""} ${index === 4 ? "col-span-2" : ""}`}><button onClick={() => setGalleryImage(image)} className="gallery-tile premium-gallery-tile group relative size-full overflow-hidden rounded-[1.4rem] text-left"><img src={image.src} alt={image.alt} className="premium-gallery-image size-full object-cover transition duration-700 group-hover:scale-[1.06]" loading="lazy" decoding="async" /><span className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-60 transition group-hover:opacity-90" /><span className="gallery-label absolute bottom-4 left-5 text-sm font-medium text-white">{image.label}</span><span aria-hidden="true" className="premium-gallery-view">View photo <ArrowRight className="size-4" /></span></button></Reveal>)}</div><Reveal delay={150}><div className="mt-10 text-center"><Button onClick={() => setAllPhotosOpen(true)} variant="outline" className="motion-button h-12 rounded-full border-[#24323b] bg-transparent px-7 uppercase tracking-[0.12em] hover:bg-[#24323b] hover:text-white">View all {gallery.length} photos</Button></div></Reveal></div></section>
 
       <Dialog open={allPhotosOpen} onOpenChange={setAllPhotosOpen}><DialogContent className="max-h-[92vh] max-w-[calc(100%-1.5rem)] overflow-y-auto border-[#cfc6ba] bg-[#f7f3ed] p-5 sm:max-w-6xl sm:p-7"><DialogHeader className="mb-2"><p className="eyebrow">The full gallery</p><DialogTitle className="font-display text-4xl font-normal text-[#24323b]">The Hideaway, room by room</DialogTitle><DialogDescription className="text-[#686b65]">Real photographs of the chalet, terrace and garden.</DialogDescription></DialogHeader><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{gallery.map((image) => <button key={image.src} onClick={() => { setAllPhotosOpen(false); window.setTimeout(() => setGalleryImage(image), 180); }} className="group relative aspect-[4/3] overflow-hidden rounded-2xl text-left"><img src={image.src} alt={image.alt} className="size-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy" decoding="async" /><span className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /><span className="absolute bottom-3 left-4 text-sm font-medium text-white">{image.label}</span></button>)}</div></DialogContent></Dialog>
 
