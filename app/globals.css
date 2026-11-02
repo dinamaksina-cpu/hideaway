@@ -466,3 +466,26 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   .premium-ocean-hero { background: #152738 url('/images/bundoran-hero-reference.jpg') center/cover no-repeat; }
   .hideaway-title-word { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 }
+
+/* Hero title width fix (Nov 2026): keep the animated name inside the viewport. */
+.premium-ocean-hero .bundoran-hero-title {
+  font-size: clamp(3rem, 7.4vw, 7.3rem);
+  line-height: 1.04;
+  letter-spacing: -.045em;
+  max-width: 100%;
+  padding: .10em .10em .16em;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .premium-ocean-hero .bundoran-hero-title {
+    font-size: clamp(2.35rem, 10.5vw, 4.75rem);
+    line-height: 1;
+    white-space: normal;
+    padding-inline: .04em;
+  }
+  .premium-ocean-hero .hideaway-title-word {
+    display: block;
+    white-space: nowrap;
+  }
+}
