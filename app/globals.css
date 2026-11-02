@@ -834,3 +834,45 @@ html { scroll-behavior:smooth; scroll-padding-top:76px; }
   }
   #location .location-video-frame { border-radius: 0 !important; }
 }
+
+/* November 2026: restore the two-column Discover Donegal layout on desktop.
+   Keep the full-bleed video ABOVE copy on phones exactly as before. */
+@media (min-width: 1024px) {
+  #location {
+    padding: 96px 36px !important;
+  }
+  #location > div {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: clamp(32px, 3vw, 54px) !important;
+    width: 100% !important;
+    max-width: 1500px !important;
+    margin-inline: auto !important;
+  }
+  #location > div > .reveal-block:first-child {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    min-width: 0;
+  }
+  #location > div > .reveal-block:nth-child(2) {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    min-width: 0;
+  }
+  #location .location-video-frame {
+    width: 100% !important;
+    aspect-ratio: 1.38 / 1 !important;
+    height: auto !important;
+    border-radius: 28px !important;
+    background: #e8e1d7 !important;
+  }
+  #location .location-video-media {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
